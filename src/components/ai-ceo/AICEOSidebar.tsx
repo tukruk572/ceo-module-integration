@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { 
@@ -39,11 +39,11 @@ const menuItems = [
 
 const AICEOSidebar = ({ activeSection, collapsed, onCollapsedChange }: AICEOSidebarProps) => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   const isActive = (item: typeof menuItems[0]) => {
-    if (item.path === "/ai-ceo" && location.pathname === "/ai-ceo") return true;
-    if (item.path !== "/ai-ceo" && location.pathname.startsWith(item.path)) return true;
+    if (item.path === "/ai-ceo" && pathname === "/ai-ceo") return true;
+    if (item.path !== "/ai-ceo" && pathname.startsWith(item.path)) return true;
     return false;
   };
 
@@ -71,7 +71,7 @@ const AICEOSidebar = ({ activeSection, collapsed, onCollapsedChange }: AICEOSide
             const button = (
               <motion.button
                 key={item.id}
-                onClick={() => navigate(item.path)}
+                onClick={() => navigate({ to: item.path })}
                 className={cn(
                   "w-full flex items-center gap-3 px-3 py-3 rounded-lg transition-all text-left",
                   active 
