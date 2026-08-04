@@ -35,13 +35,13 @@ const menuItems = [
   { id: "reports", label: "AI Reports", icon: FileText, path: "/ai-ceo/reports" },
   { id: "learning", label: "System Learning Log", icon: Database, path: "/ai-ceo/learning" },
   { id: "settings", label: "Settings (Read-Only)", icon: Settings, path: "/ai-ceo/settings" },
-];
+] as const;
 
 const AICEOSidebar = ({ activeSection, collapsed, onCollapsedChange }: AICEOSidebarProps) => {
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
-  const isActive = (item: typeof menuItems[0]) => {
+  const isActive = (item: (typeof menuItems)[number]) => {
     if (item.path === "/ai-ceo" && pathname === "/ai-ceo") return true;
     if (item.path !== "/ai-ceo" && pathname.startsWith(item.path)) return true;
     return false;

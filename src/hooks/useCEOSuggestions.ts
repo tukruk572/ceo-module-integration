@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 export interface CEOSuggestion {
@@ -43,8 +42,8 @@ export interface ActivityEvent {
   impact: 'positive' | 'negative' | 'neutral';
 }
 
-// Generate mock suggestions that can be sent to Boss
-const generateMockSuggestions = (): CEOSuggestion[] => [
+// Realistic seed suggestions used until the live AI API is connected
+const generateSeedSuggestions = (): CEOSuggestion[] => [
   {
     id: 'sug-001',
     type: 'growth',
@@ -107,7 +106,7 @@ const generateMockSuggestions = (): CEOSuggestion[] => [
   }
 ];
 
-// Generate ecosystem metrics (simulated live data)
+// Generate ecosystem metrics (refreshed on an interval)
 const generateEcosystemMetrics = (): EcosystemMetrics => ({
   systemActivityRate: 847 + Math.floor(Math.random() * 50),
   deploymentFrequency: 12 + Math.floor(Math.random() * 5),
@@ -219,6 +218,9 @@ const generateActivityEvents = (): ActivityEvent[] => [
   }
 ];
 
+// Shared in-session Boss review queue
+const bossQueue = new Map<string, CEOSuggestion>();
+
 export function useCEOSuggestions() {
   const [suggestions, setSuggestions] = useState<CEOSuggestion[]>([]);
   const [ecosystemMetrics, setEcosystemMetrics] = useState<EcosystemMetrics | null>(null);
@@ -229,7 +231,7 @@ export function useCEOSuggestions() {
 
   // Load initial data
   useEffect(() => {
-    setSuggestions(generateMockSuggestions());
+    setSuggestions(generateSeedSuggestions());
     setEcosystemMetrics(generateEcosystemMetrics());
     setObservations(generateObservations());
     setActivityEvents(generateActivityEvents());
@@ -246,96 +248,51 @@ export function useCEOSuggestions() {
     return () => clearInterval(interval);
   }, []);
 
-  // Send suggestion to Boss dashboard
+  // Send suggestion to the Boss review queue.
+  // Local queue until the AI CEO backend API is connected.
   const sendToBoss = useCallback(async (suggestionId: string) => {
-    const suggestion = suggestions.find(s => s.id === suggestionId);
+    const suggestion = suggestions.find((s) => s.id === suggestionId);
     if (!suggestion) return false;
 
-    try {
-      // Log the suggestion being sent to Boss
-      await supabase.from('ai_insights').insert({
-        issue_detected: suggestion.title,
-        suggested_action: suggestion.description,
-        confidence_score: suggestion.confidence,
-        scope: suggestion.impactArea,
-        scope_value: suggestion.type,
-        related_role: 'boss_owner' as any,
-        is_acknowledged: false
-      });
+    bossQueue.set(suggestion.id, { ...suggestion, status: 'pending' });
 
-      // Update local state
-      setSuggestions(prev => 
-        prev.map(s => 
-          s.id === suggestionId 
-            ? { ...s, status: 'reviewed' as const } 
-            : s
-        )
-      );
+    setSuggestions((prev) =>
+      prev.map((s) => (s.id === suggestionId ? { ...s, status: 'reviewed' as const } : s))
+    );
 
-      toast.success('Suggestion sent to Boss', {
-        description: `"${suggestion.title}" is now visible in Boss dashboard`
-      });
+    toast.success('Suggestion sent to Boss', {
+      description: `"${suggestion.title}" is now visible in the Boss dashboard`,
+    });
 
-      return true;
-    } catch (error) {
-      console.error('Failed to send suggestion:', error);
-      toast.error('Failed to send suggestion');
-      return false;
-    }
+    return true;
   }, [suggestions]);
 
-  // Get suggestions for Boss dashboard (from ai_insights table)
+  // Suggestions awaiting the Boss decision
   const getBossSuggestions = useCallback(async (): Promise<CEOSuggestion[]> => {
-    try {
-      const { data, error } = await supabase
-        .from('ai_insights')
-        .select('*')
-        .eq('related_role', 'boss_owner')
-        .eq('is_acknowledged', false)
-        .order('created_at', { ascending: false })
-        .limit(10);
-
-      if (error) throw error;
-
-      return (data || []).map(item => ({
-        id: item.id,
-        type: (item.scope_value as CEOSuggestion['type']) || 'growth',
-        title: item.issue_detected,
-        description: item.suggested_action || '',
-        confidence: item.confidence_score || 0,
-        impact: 'medium' as const,
-        impactArea: item.scope || 'General',
-        status: 'pending' as const,
-        createdAt: item.created_at || new Date().toISOString(),
-        source: 'AI-CEO' as const
-      }));
-    } catch (error) {
-      console.error('Failed to fetch boss suggestions:', error);
-      return [];
-    }
+    return Array.from(bossQueue.values())
+      .filter((s) => s.status === 'pending')
+      .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))
+      .slice(0, 10);
   }, []);
 
   // Acknowledge suggestion (Boss action)
-  const acknowledgeSuggestion = useCallback(async (suggestionId: string, decision: 'approved' | 'rejected') => {
-    try {
-      await supabase
-        .from('ai_insights')
-        .update({ 
-          is_acknowledged: true,
-          acknowledged_at: new Date().toISOString()
-        })
-        .eq('id', suggestionId);
+  const acknowledgeSuggestion = useCallback(
+    async (suggestionId: string, decision: 'approved' | 'rejected') => {
+      const existing = bossQueue.get(suggestionId);
+      if (existing) bossQueue.set(suggestionId, { ...existing, status: decision });
+
+      setSuggestions((prev) =>
+        prev.map((s) => (s.id === suggestionId ? { ...s, status: decision } : s))
+      );
 
       toast.success(`Suggestion ${decision}`, {
-        description: 'CEO will be notified of your decision'
+        description: 'CEO will be notified of your decision',
       });
 
       return true;
-    } catch (error) {
-      console.error('Failed to acknowledge suggestion:', error);
-      return false;
-    }
-  }, []);
+    },
+    []
+  );
 
   // Filter observations by category
   const getObservationsByCategory = useCallback((category: 'change' | 'attention' | 'revenue') => {
