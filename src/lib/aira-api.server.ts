@@ -46,8 +46,9 @@ export async function airaFetch<T>(
     const response = await fetch(`${base}${path}`, {
       method: init.method ?? 'GET',
       headers,
-      body: init.body === undefined ? undefined : JSON.stringify(init.body),
+      ...(init.body === undefined ? {} : { body: JSON.stringify(init.body) }),
     });
+
 
     if (!response.ok) {
       const text = await response.text();
