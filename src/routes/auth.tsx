@@ -24,7 +24,7 @@ export const Route = createFileRoute("/auth")({
     ],
   }),
   validateSearch: (search: Record<string, unknown>) => ({
-    redirect: typeof search.redirect === "string" ? search.redirect : "/ai-ceo",
+    redirect: typeof search['redirect'] === "string" ? (search['redirect'] as string) : "/ai-ceo",
   }),
   loader: async () => {
     const { user, authApiConfigured } = await getCurrentUser();
