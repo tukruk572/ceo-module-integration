@@ -39,9 +39,11 @@ export const Route = createFileRoute("/ai-ceo")({
 
 
 function AICEODashboard() {
+  const { user } = Route.useRouteContext();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [streamingOn, setStreamingOn] = useState(true);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+
 
   const activeSection = (() => {
     const path = pathname.split("/").pop() || "dashboard";
@@ -76,9 +78,12 @@ function AICEODashboard() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
               >
-                <Outlet />
+                <RequireRole user={user}>
+                  <Outlet />
+                </RequireRole>
               </motion.div>
             </AnimatePresence>
+
           </main>
         </div>
       </div>
