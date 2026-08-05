@@ -1,12 +1,22 @@
-import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 import AICEOHeader from "@/components/ai-ceo/AICEOHeader";
 import AICEOSidebar from "@/components/ai-ceo/AICEOSidebar";
+import { RequireRole, isRoleAllowed } from "@/components/auth/RequireRole";
+import { getCurrentUser } from "@/lib/auth.functions";
 
 export const Route = createFileRoute("/ai-ceo")({
+  // Guards /ai-ceo and every nested section route
+  beforeLoad: async ({ location }) => {
+    const { user } = await getCurrentUser();
+    if (!isRoleAllowed(user)) {
+      throw redirect({ to: "/auth", search: { redirect: location.href } });
+    }
+    return { user };
+  },
   head: () => ({
     meta: [
       { title: "AI CEO Command Center — Software Vala" },
@@ -21,15 +31,19 @@ export const Route = createFileRoute("/ai-ceo")({
         content:
           "Observer and advisor AI CEO: live monitoring, decisions, approvals, risk, performance and predictions.",
       },
+      { name: "robots", content: "noindex" },
     ],
   }),
   component: AICEODashboard,
 });
 
+
 function AICEODashboard() {
+  const { user } = Route.useRouteContext();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [streamingOn, setStreamingOn] = useState(true);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+
 
   const activeSection = (() => {
     const path = pathname.split("/").pop() || "dashboard";
@@ -64,9 +78,12 @@ function AICEODashboard() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
               >
-                <Outlet />
+                <RequireRole user={user}>
+                  <Outlet />
+                </RequireRole>
               </motion.div>
             </AnimatePresence>
+
           </main>
         </div>
       </div>
