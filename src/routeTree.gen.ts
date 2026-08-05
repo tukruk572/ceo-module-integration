@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AiCeoRouteImport } from './routes/ai-ceo'
+import { Route as OwnerRouteImport } from './routes/owner'
+import { Route as SoftwarewalaRouteImport } from './routes/softwarewala'
 import { Route as AiCeoIndexRouteImport } from './routes/ai-ceo.index'
 import { Route as AiCeoApprovalsRouteImport } from './routes/ai-ceo.approvals'
 import { Route as AiCeoDecisionEngineRouteImport } from './routes/ai-ceo.decision-engine'
@@ -30,6 +32,16 @@ const IndexRoute = IndexRouteImport.update({
 const AiCeoRoute = AiCeoRouteImport.update({
   id: '/ai-ceo',
   path: '/ai-ceo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OwnerRoute = OwnerRouteImport.update({
+  id: '/owner',
+  path: '/owner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SoftwarewalaRoute = SoftwarewalaRouteImport.update({
+  id: '/softwarewala',
+  path: '/softwarewala',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AiCeoIndexRoute = AiCeoIndexRouteImport.update({
@@ -86,6 +98,8 @@ const AiCeoSettingsRoute = AiCeoSettingsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai-ceo': typeof AiCeoRouteWithChildren
+  '/owner': typeof OwnerRoute
+  '/softwarewala': typeof SoftwarewalaRoute
   '/ai-ceo/approvals': typeof AiCeoApprovalsRoute
   '/ai-ceo/decision-engine': typeof AiCeoDecisionEngineRoute
   '/ai-ceo/learning': typeof AiCeoLearningRoute
@@ -99,6 +113,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/owner': typeof OwnerRoute
+  '/softwarewala': typeof SoftwarewalaRoute
   '/ai-ceo/approvals': typeof AiCeoApprovalsRoute
   '/ai-ceo/decision-engine': typeof AiCeoDecisionEngineRoute
   '/ai-ceo/learning': typeof AiCeoLearningRoute
@@ -114,6 +130,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ai-ceo': typeof AiCeoRouteWithChildren
+  '/owner': typeof OwnerRoute
+  '/softwarewala': typeof SoftwarewalaRoute
   '/ai-ceo/approvals': typeof AiCeoApprovalsRoute
   '/ai-ceo/decision-engine': typeof AiCeoDecisionEngineRoute
   '/ai-ceo/learning': typeof AiCeoLearningRoute
@@ -130,6 +148,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/ai-ceo'
+    | '/owner'
+    | '/softwarewala'
     | '/ai-ceo/approvals'
     | '/ai-ceo/decision-engine'
     | '/ai-ceo/learning'
@@ -143,6 +163,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/owner'
+    | '/softwarewala'
     | '/ai-ceo/approvals'
     | '/ai-ceo/decision-engine'
     | '/ai-ceo/learning'
@@ -157,6 +179,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/ai-ceo'
+    | '/owner'
+    | '/softwarewala'
     | '/ai-ceo/approvals'
     | '/ai-ceo/decision-engine'
     | '/ai-ceo/learning'
@@ -172,6 +196,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiCeoRoute: typeof AiCeoRouteWithChildren
+  OwnerRoute: typeof OwnerRoute
+  SoftwarewalaRoute: typeof SoftwarewalaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -188,6 +214,20 @@ declare module '@tanstack/react-router' {
       path: '/ai-ceo'
       fullPath: '/ai-ceo'
       preLoaderRoute: typeof AiCeoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/owner': {
+      id: '/owner'
+      path: '/owner'
+      fullPath: '/owner'
+      preLoaderRoute: typeof OwnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/softwarewala': {
+      id: '/softwarewala'
+      path: '/softwarewala'
+      fullPath: '/softwarewala'
+      preLoaderRoute: typeof SoftwarewalaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ai-ceo/': {
@@ -294,6 +334,8 @@ const AiCeoRouteWithChildren = AiCeoRoute._addFileChildren(AiCeoRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiCeoRoute: AiCeoRouteWithChildren,
+  OwnerRoute: OwnerRoute,
+  SoftwarewalaRoute: SoftwarewalaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
