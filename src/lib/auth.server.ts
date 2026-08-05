@@ -45,7 +45,10 @@ export async function authenticateWithApi(
     body: { email, password },
   });
 
-  if (!result.configured) return { user: null, configured: false, error: result.error };
+  if (!result.configured) {
+    return { user: null, configured: false, ...(result.error ? { error: result.error } : {}) };
+  }
+
   if (!result.ok || !result.data?.user) {
     return { user: null, configured: true, error: 'Invalid email or password' };
   }
