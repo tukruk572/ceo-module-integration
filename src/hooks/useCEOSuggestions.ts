@@ -227,7 +227,8 @@ export function useCEOSuggestions() {
   const [observations, setObservations] = useState<AIObservation[]>([]);
   const [activityEvents, setActivityEvents] = useState<ActivityEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
+  // Set after mount so server and client HTML match
+  const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
 
   // Load initial data
   useEffect(() => {
@@ -235,6 +236,7 @@ export function useCEOSuggestions() {
     setEcosystemMetrics(generateEcosystemMetrics());
     setObservations(generateObservations());
     setActivityEvents(generateActivityEvents());
+    setLastRefresh(new Date());
     setIsLoading(false);
   }, []);
 

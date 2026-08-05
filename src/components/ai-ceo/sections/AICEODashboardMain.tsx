@@ -116,7 +116,7 @@ const AICEODashboardMain = () => {
           </Badge>
           <div className="flex items-center gap-2 text-xs text-slate-400">
             <RefreshCw className="w-3 h-3" />
-            <span>Last: {lastRefresh.toLocaleTimeString()}</span>
+            <span>Last: {lastRefresh ? lastRefresh.toLocaleTimeString() : "—"}</span>
           </div>
         </div>
       </div>
