@@ -31,7 +31,6 @@ export const Route = createFileRoute("/ai-ceo")({
 
 function AICEODashboard() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [streamingOn, setStreamingOn] = useState(true);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
