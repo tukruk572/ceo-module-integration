@@ -61,11 +61,15 @@ test.describe("legacy paths redirect into the CEO module", () => {
 
 test("sidebar navigation reaches every section without a full reload", async ({ page }) => {
   const errors = watchErrors(page);
-  await page.goto("/ai-ceo", { waitUntil: "domcontentloaded" });
+  await page.goto("/ai-ceo", { waitUntil: "load" });
+  await expect(page.getByRole("heading", { level: 1, name: "AI CEO Dashboard" })).toBeVisible();
 
   for (const { heading, navLabel, path } of AI_CEO_ROUTES.slice(1)) {
-    await page.getByRole("button", { name: navLabel, exact: true }).click();
-    await expect(page).toHaveURL(new RegExp(`${path}$`));
+    // Retry the click until the client router has hydrated and handles it.
+    await expect(async () => {
+      await page.getByRole("button", { name: navLabel, exact: true }).click();
+      await expect(page).toHaveURL(new RegExp(`${path}$`), { timeout: 2000 });
+    }).toPass({ timeout: 15000 });
     await expect(page.getByRole("heading", { level: 1, name: heading })).toBeVisible();
   }
 
