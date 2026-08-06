@@ -39,15 +39,6 @@ export interface ActivityEvent {
   impact: 'positive' | 'negative' | 'neutral';
 }
 
-/** Roles allowed into the /ai-ceo module (mirrors RequireRole in the source repo). */
-export const AI_CEO_ALLOWED_ROLES = ['boss_owner', 'ceo'] as const;
-export type AppRole = (typeof AI_CEO_ALLOWED_ROLES)[number] | (string & {});
-
-export interface SessionUser {
-  id: string;
-  email: string;
-  role: AppRole;
-}
 
 /** Persisted AI CEO state returned by the Prisma-backed API. */
 export interface CEOState {

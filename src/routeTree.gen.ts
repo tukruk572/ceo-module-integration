@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AiCeoRouteImport } from './routes/ai-ceo'
-import { Route as AuthRouteImport } from './routes/auth'
 import { Route as OwnerRouteImport } from './routes/owner'
 import { Route as SoftwarewalaRouteImport } from './routes/softwarewala'
 import { Route as AiCeoIndexRouteImport } from './routes/ai-ceo.index'
@@ -33,11 +32,6 @@ const IndexRoute = IndexRouteImport.update({
 const AiCeoRoute = AiCeoRouteImport.update({
   id: '/ai-ceo',
   path: '/ai-ceo',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OwnerRoute = OwnerRouteImport.update({
@@ -104,7 +98,6 @@ const AiCeoSettingsRoute = AiCeoSettingsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai-ceo': typeof AiCeoRouteWithChildren
-  '/auth': typeof AuthRoute
   '/owner': typeof OwnerRoute
   '/softwarewala': typeof SoftwarewalaRoute
   '/ai-ceo/approvals': typeof AiCeoApprovalsRoute
@@ -120,7 +113,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
   '/owner': typeof OwnerRoute
   '/softwarewala': typeof SoftwarewalaRoute
   '/ai-ceo/approvals': typeof AiCeoApprovalsRoute
@@ -138,7 +130,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ai-ceo': typeof AiCeoRouteWithChildren
-  '/auth': typeof AuthRoute
   '/owner': typeof OwnerRoute
   '/softwarewala': typeof SoftwarewalaRoute
   '/ai-ceo/approvals': typeof AiCeoApprovalsRoute
@@ -157,7 +148,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/ai-ceo'
-    | '/auth'
     | '/owner'
     | '/softwarewala'
     | '/ai-ceo/approvals'
@@ -173,7 +163,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/auth'
     | '/owner'
     | '/softwarewala'
     | '/ai-ceo/approvals'
@@ -190,7 +179,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/ai-ceo'
-    | '/auth'
     | '/owner'
     | '/softwarewala'
     | '/ai-ceo/approvals'
@@ -208,7 +196,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiCeoRoute: typeof AiCeoRouteWithChildren
-  AuthRoute: typeof AuthRoute
   OwnerRoute: typeof OwnerRoute
   SoftwarewalaRoute: typeof SoftwarewalaRoute
 }
@@ -227,13 +214,6 @@ declare module '@tanstack/react-router' {
       path: '/ai-ceo'
       fullPath: '/ai-ceo'
       preLoaderRoute: typeof AiCeoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/owner': {
@@ -354,7 +334,6 @@ const AiCeoRouteWithChildren = AiCeoRoute._addFileChildren(AiCeoRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiCeoRoute: AiCeoRouteWithChildren,
-  AuthRoute: AuthRoute,
   OwnerRoute: OwnerRoute,
   SoftwarewalaRoute: SoftwarewalaRoute,
 }
