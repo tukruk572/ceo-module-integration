@@ -1,17 +1,21 @@
 import { test, expect, type ConsoleMessage, type Page } from "@playwright/test";
 
-/** Every AI CEO subroute and the heading it must render. */
-export const AI_CEO_ROUTES: { path: string; heading: string }[] = [
-  { path: "/ai-ceo", heading: "AI CEO Dashboard" },
-  { path: "/ai-ceo/live-monitor", heading: "Live Action Monitor" },
-  { path: "/ai-ceo/decision-engine", heading: "Decision Engine" },
-  { path: "/ai-ceo/approvals", heading: "Approval Suggestions" },
-  { path: "/ai-ceo/risk", heading: "Risk & Compliance" },
-  { path: "/ai-ceo/performance", heading: "Performance Intelligence" },
-  { path: "/ai-ceo/predictions", heading: "Predictive Insights" },
-  { path: "/ai-ceo/reports", heading: "AI Reports" },
-  { path: "/ai-ceo/learning", heading: "System Learning Log" },
-  { path: "/ai-ceo/settings", heading: "Settings" },
+/** Every AI CEO subroute, its sidebar entry and the heading it must render. */
+export const AI_CEO_ROUTES: { path: string; heading: string; navLabel: string }[] = [
+  { path: "/ai-ceo", heading: "AI CEO Dashboard", navLabel: "Dashboard" },
+  { path: "/ai-ceo/live-monitor", heading: "Live Action Monitor", navLabel: "Live Action Monitor" },
+  { path: "/ai-ceo/decision-engine", heading: "Decision Engine", navLabel: "Decision Engine" },
+  { path: "/ai-ceo/approvals", heading: "Approval Suggestions", navLabel: "Approval Suggestions" },
+  { path: "/ai-ceo/risk", heading: "Risk & Compliance", navLabel: "Risk & Compliance" },
+  {
+    path: "/ai-ceo/performance",
+    heading: "Performance Intelligence",
+    navLabel: "Performance Intelligence",
+  },
+  { path: "/ai-ceo/predictions", heading: "Predictive Insights", navLabel: "Predictive Insights" },
+  { path: "/ai-ceo/reports", heading: "AI Reports", navLabel: "AI Reports" },
+  { path: "/ai-ceo/learning", heading: "System Learning Log", navLabel: "System Learning Log" },
+  { path: "/ai-ceo/settings", heading: "Settings", navLabel: "Settings (Read-Only)" },
 ];
 
 /** Collect console errors and uncaught page errors for the life of a page. */
@@ -32,9 +36,11 @@ test.describe("AI CEO subroutes render", () => {
       const response = await page.goto(path, { waitUntil: "domcontentloaded" });
       expect(response?.status(), `${path} HTTP status`).toBe(200);
 
-      // Shell chrome plus the section heading must both be present.
+      // Section heading plus the shared shell chrome must both be present.
       await expect(page.getByRole("heading", { level: 1, name: heading })).toBeVisible();
-      await expect(page.getByRole("link", { name: /Live Action Monitor/i }).first()).toBeVisible();
+      await expect(
+        page.getByRole("button", { name: "Live Action Monitor", exact: true }),
+      ).toBeVisible();
 
       // Hydration completed (no mismatch wipes) and nothing threw.
       await page.waitForTimeout(500);
@@ -57,8 +63,9 @@ test("sidebar navigation reaches every section without a full reload", async ({ 
   const errors = watchErrors(page);
   await page.goto("/ai-ceo", { waitUntil: "domcontentloaded" });
 
-  for (const { heading } of AI_CEO_ROUTES.slice(1)) {
-    await page.getByRole("link", { name: new RegExp(heading, "i") }).first().click();
+  for (const { heading, navLabel, path } of AI_CEO_ROUTES.slice(1)) {
+    await page.getByRole("button", { name: navLabel, exact: true }).click();
+    await expect(page).toHaveURL(new RegExp(`${path}$`));
     await expect(page.getByRole("heading", { level: 1, name: heading })).toBeVisible();
   }
 
