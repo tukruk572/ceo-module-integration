@@ -76,16 +76,6 @@ const AICEOHeader = ({ streamingOn, onStreamingToggle }: AICEOHeaderProps) => {
           <Settings className="w-5 h-5" />
         </Button>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Sign out"
-          onClick={handleSignOut}
-          className="text-cyan-400 hover:bg-cyan-500/10"
-        >
-          <LogOut className="w-5 h-5" />
-        </Button>
-
       </div>
     </header>
   );
