@@ -1,12 +1,8 @@
-import { Bot, Radio, Bell, Shield, Activity, Search, Settings, LogOut } from "lucide-react";
+import { Bot, Radio, Bell, Shield, Activity, Search, Settings } from "lucide-react";
 import { motion } from "framer-motion";
-import { useNavigate } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
-import { useQueryClient } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { signOut } from "@/lib/auth.functions";
 
 interface AICEOHeaderProps {
   streamingOn: boolean;
@@ -14,16 +10,8 @@ interface AICEOHeaderProps {
 }
 
 const AICEOHeader = ({ streamingOn, onStreamingToggle }: AICEOHeaderProps) => {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const doSignOut = useServerFn(signOut);
 
-  const handleSignOut = async () => {
-    await queryClient.cancelQueries();
-    queryClient.clear();
-    await doSignOut();
-    navigate({ to: "/auth", replace: true });
-  };
+
 
 
   return (
