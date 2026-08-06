@@ -1,22 +1,13 @@
-import { createFileRoute, Outlet, redirect, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 import AICEOHeader from "@/components/ai-ceo/AICEOHeader";
 import AICEOSidebar from "@/components/ai-ceo/AICEOSidebar";
-import { RequireRole, isRoleAllowed } from "@/components/auth/RequireRole";
-import { getCurrentUser } from "@/lib/auth.functions";
 
 export const Route = createFileRoute("/ai-ceo")({
-  // Guards /ai-ceo and every nested section route
-  beforeLoad: async ({ location }) => {
-    const { user } = await getCurrentUser();
-    if (!isRoleAllowed(user)) {
-      throw redirect({ to: "/auth", search: { redirect: location.href } });
-    }
-    return { user };
-  },
+
   head: () => ({
     meta: [
       { title: "AI CEO Command Center — Software Vala" },
