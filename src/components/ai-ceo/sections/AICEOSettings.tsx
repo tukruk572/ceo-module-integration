@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { PageBanner, PageShell } from "@/components/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
@@ -55,26 +56,16 @@ const settingsConfig = [
 
 const AICEOSettings = () => {
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-muted via-surface to-secondary flex items-center justify-center shadow-xl shadow-muted/20">
-            <Settings className="w-7 h-7 text-foreground" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Settings</h1>
-            <p className="text-primary-glow/80">AI CEO configuration (Read-Only)</p>
-          </div>
-        </div>
-        <Badge className="bg-muted/20 text-muted-foreground border-muted/30">
-          <Lock className="w-3 h-3 mr-1" />
-          READ-ONLY MODE
-        </Badge>
-      </div>
+    <PageShell>
+      <PageBanner
+        icon={Settings}
+        title="Settings"
+        subtitle="AI CEO configuration surface — read-only, controlled by the system owner."
+        status="Read-only mode"
+      />
 
       {/* Settings Grid */}
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {settingsConfig.map((category, i) => (
           <motion.div
             key={category.category}
@@ -123,7 +114,7 @@ const AICEOSettings = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             <div className="p-4 rounded-lg bg-surface border border-border">
               <p className="text-xs text-muted-foreground mb-1">AI Version</p>
               <p className="text-lg font-bold text-foreground">v2.0.4</p>
@@ -149,7 +140,7 @@ const AICEOSettings = () => {
           </p>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 };
 

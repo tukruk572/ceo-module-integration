@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { PageBanner, PageShell } from "@/components/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -80,26 +81,16 @@ const getDecisionStyle = (decision: string) => {
 
 const AICEOLearning = () => {
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-pink via-accent-pink to-rose-600 flex items-center justify-center shadow-xl shadow-accent-pink/20">
-            <Database className="w-7 h-7 text-foreground" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">System Learning Log</h1>
-            <p className="text-primary-glow/80">AI observation and decision learning history</p>
-          </div>
-        </div>
-        <Badge className="bg-accent-pink/20 text-accent-pink border-accent-pink/30">
-          <Brain className="w-3 h-3 mr-1" />
-          Continuous Learning
-        </Badge>
-      </div>
+    <PageShell>
+      <PageBanner
+        icon={Database}
+        title="System Learning Log"
+        subtitle="Every AI observation, decision and outcome recorded for continuous model learning."
+        status="Continuous learning enabled"
+      />
 
       {/* Learning Stats */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <Card className="bg-card border-border">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
@@ -169,7 +160,7 @@ const AICEOLearning = () => {
                     transition={{ delay: i * 0.1 }}
                     className="p-5 rounded-xl bg-surface border border-border hover:border-accent-pink/30 transition-all"
                   >
-                    <div className="grid grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
                       {/* Observation */}
                       <div>
                         <p className="text-xs text-muted-foreground mb-1">AI Observed</p>
@@ -227,7 +218,7 @@ const AICEOLearning = () => {
           </p>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 };
 

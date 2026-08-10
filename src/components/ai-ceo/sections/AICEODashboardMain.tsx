@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { PageBanner, PageShell } from "@/components/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -97,29 +98,13 @@ const AICEODashboardMain = () => {
     : getEventsByType(activityFilter as ActivityEvent['type']);
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-glow via-primary to-accent-pink flex items-center justify-center shadow-xl shadow-primary/20">
-            <Brain className="w-7 h-7 text-foreground" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">AI CEO Dashboard</h1>
-            <p className="text-primary-glow/80">Autonomous Observer • Real-time Analysis</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <Badge className="bg-accent-emerald/20 text-accent-emerald border-accent-emerald/30 px-4 py-2">
-            <Eye className="w-4 h-4 mr-2" />
-            OBSERVING ALL SYSTEMS
-          </Badge>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <RefreshCw className="w-3 h-3" />
-            <span>Last: {lastRefresh ? lastRefresh.toLocaleTimeString() : "—"}</span>
-          </div>
-        </div>
-      </div>
+    <PageShell>
+      <PageBanner
+        icon={Brain}
+        title="AI CEO Dashboard"
+        subtitle="Autonomous observer running continuous real-time analysis across the entire Software Vala ecosystem."
+        status="Observer · real-time analysis"
+      />
 
       {/* Ecosystem Monitor - Live Metrics */}
       <div className="grid grid-cols-6 gap-4">
@@ -156,7 +141,7 @@ const AICEODashboardMain = () => {
       </div>
 
       {/* Main Grid: Observations + Suggestions */}
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* AI Observation Panel */}
         <Card className="col-span-2 bg-card border-border backdrop-blur-xl">
           <CardHeader className="pb-3">
@@ -337,7 +322,7 @@ const AICEODashboardMain = () => {
           </p>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 };
 

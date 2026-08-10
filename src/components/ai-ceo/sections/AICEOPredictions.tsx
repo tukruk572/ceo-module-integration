@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { PageBanner, PageShell } from "@/components/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -93,26 +94,16 @@ const getTypeStyle = (type: string) => {
 
 const AICEOPredictions = () => {
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-amber via-accent-amber to-destructive flex items-center justify-center shadow-xl shadow-accent-amber/20">
-            <Lightbulb className="w-7 h-7 text-foreground" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Predictive Insights</h1>
-            <p className="text-primary-glow/80">AI-powered future state predictions</p>
-          </div>
-        </div>
-        <Badge className="bg-accent-amber/20 text-accent-amber border-accent-amber/30">
-          <Lightbulb className="w-3 h-3 mr-1" />
-          ML-Powered Forecasting
-        </Badge>
-      </div>
+    <PageShell>
+      <PageBanner
+        icon={Lightbulb}
+        title="Predictive Insights"
+        subtitle="Forward-looking forecasts, opportunity detection and risk projections from the AI models."
+        status="Forecast horizon · 90 days"
+      />
 
       {/* Timeline Predictions */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         {Object.entries(timelineData).map(([key, items], i) => {
           const titles = { sevenDays: "Next 7 Days", thirtyDays: "Next 30 Days", quarter: "Next Quarter" };
           return (
@@ -212,7 +203,7 @@ const AICEOPredictions = () => {
           </p>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 };
 

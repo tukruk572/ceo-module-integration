@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { PageBanner, PageShell } from "@/components/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -87,25 +88,16 @@ const getRiskStyle = (risk: string) => {
 
 const AICEOApprovals = () => {
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-glow via-primary to-teal-600 flex items-center justify-center shadow-xl shadow-primary/20">
-            <CheckSquare className="w-7 h-7 text-foreground" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Approval Suggestions</h1>
-            <p className="text-primary-glow/80">AI-recommended approval decisions</p>
-          </div>
-        </div>
-        <Badge className="bg-primary/20 text-primary-glow border-primary/30">
-          {approvalSuggestions.length} Pending
-        </Badge>
-      </div>
+    <PageShell>
+      <PageBanner
+        icon={CheckSquare}
+        title="Approval Suggestions"
+        subtitle="AI-recommended approval decisions with confidence scoring, rationale and one-click escalation to the Boss queue."
+        status="Advisory only · no autonomous execution"
+      />
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         <Card className="bg-accent-emerald/5 border-accent-emerald/20">
           <CardContent className="p-4 flex items-center gap-3">
             <ThumbsUp className="w-6 h-6 text-accent-emerald" />
@@ -214,7 +206,7 @@ const AICEOApprovals = () => {
           </p>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 };
 

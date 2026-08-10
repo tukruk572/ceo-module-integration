@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { PageBanner, PageShell } from "@/components/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -42,31 +43,16 @@ const getRiskBadge = (risk: number) => {
 
 const AICEOLiveMonitor = () => {
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-emerald via-primary to-primary flex items-center justify-center shadow-xl shadow-accent-emerald/20">
-            <Activity className="w-7 h-7 text-foreground" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Live Action Monitor</h1>
-            <p className="text-primary-glow/80">Real-time stream of all system actions</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <Badge className="bg-accent-emerald/20 text-accent-emerald border-accent-emerald/30 animate-pulse">
-            <Activity className="w-3 h-3 mr-1" />
-            STREAMING LIVE
-          </Badge>
-          <Badge className="bg-secondary text-foreground">
-            {liveActions.length} actions/min
-          </Badge>
-        </div>
-      </div>
+    <PageShell>
+      <PageBanner
+        icon={Activity}
+        title="Live Action Monitor"
+        subtitle="Real-time stream of every action taken across CEO, admin, franchise and creator layers."
+        status="Streaming live"
+      />
 
       {/* Filter Stats */}
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
         {[
           { label: "CEO", count: 12, icon: Eye },
           { label: "Admins", count: 45, icon: Shield },
@@ -157,7 +143,7 @@ const AICEOLiveMonitor = () => {
           </p>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 };
 

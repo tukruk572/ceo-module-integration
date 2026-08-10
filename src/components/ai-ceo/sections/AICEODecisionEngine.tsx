@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { PageBanner, PageShell } from "@/components/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -81,28 +82,16 @@ const getDecisionIcon = (decision: string) => {
 
 const AICEODecisionEngine = () => {
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-pink via-accent-pink to-primary flex items-center justify-center shadow-xl shadow-accent-pink/20">
-            <Brain className="w-7 h-7 text-foreground" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Decision Engine</h1>
-            <p className="text-primary-glow/80">AI-powered decision recommendations</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <Badge className="bg-accent-pink/20 text-accent-pink border-accent-pink/30">
-            <Brain className="w-3 h-3 mr-1" />
-            ML Model v3.2
-          </Badge>
-        </div>
-      </div>
+    <PageShell>
+      <PageBanner
+        icon={Brain}
+        title="Decision Engine"
+        subtitle="AI-powered decision recommendations scored by the ML model with full reasoning trails."
+        status="ML Model v3.2 · live scoring"
+      />
 
       {/* Decision Stats */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         {[
           { label: "Approve", count: 156, icon: CheckCircle, color: "text-accent-emerald" },
           { label: "Delay", count: 23, icon: Clock, color: "text-accent-amber" },
@@ -201,7 +190,7 @@ const AICEODecisionEngine = () => {
           </p>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 };
 

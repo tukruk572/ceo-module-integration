@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { PageBanner, PageShell } from "@/components/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -97,26 +98,16 @@ const getStatusStyle = (status: string) => {
 
 const AICEORiskCompliance = () => {
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-amber via-destructive to-accent-pink flex items-center justify-center shadow-xl shadow-accent-amber/20">
-            <ShieldAlert className="w-7 h-7 text-foreground" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Risk & Compliance</h1>
-            <p className="text-primary-glow/80">System-wide risk monitoring and compliance tracking</p>
-          </div>
-        </div>
-        <Badge className="bg-accent-amber/20 text-accent-amber border-accent-amber/30">
-          <AlertTriangle className="w-3 h-3 mr-1" />
-          11 Active Issues
-        </Badge>
-      </div>
+    <PageShell>
+      <PageBanner
+        icon={ShieldAlert}
+        title="Risk & Compliance"
+        subtitle="Fraud detection, anomaly flagging and compliance posture across the ecosystem."
+        status="Monitoring 24/7"
+      />
 
       {/* Risk Categories Grid */}
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
         {riskCategories.map((risk, i) => {
           const style = getLevelStyle(risk.level);
           return (
@@ -149,7 +140,7 @@ const AICEORiskCompliance = () => {
         })}
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Compliance Status */}
         <Card className="bg-card border-border backdrop-blur-xl">
           <CardHeader>
@@ -218,7 +209,7 @@ const AICEORiskCompliance = () => {
           </p>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 };
 

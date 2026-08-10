@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { PageBanner, PageShell } from "@/components/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -71,26 +72,16 @@ const getTypeColor = (type: string) => {
 
 const AICEOReports = () => {
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-glow via-primary to-accent-pink flex items-center justify-center shadow-xl shadow-primary/20">
-            <FileText className="w-7 h-7 text-foreground" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">AI Reports</h1>
-            <p className="text-primary-glow/80">Auto-generated intelligence reports</p>
-          </div>
-        </div>
-        <Badge className="bg-primary/20 text-primary-glow border-primary/30">
-          <FileText className="w-3 h-3 mr-1" />
-          {reports.length} Reports Available
-        </Badge>
-      </div>
+    <PageShell>
+      <PageBanner
+        icon={FileText}
+        title="AI Reports"
+        subtitle="Executive briefings and AI-generated reports, ready for download and board review."
+        status="Auto-generated daily"
+      />
 
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         {[
           { label: "Daily Reports", count: 365, icon: Calendar, color: "text-primary-glow" },
           { label: "Weekly Reports", count: 52, icon: TrendingUp, color: "text-accent-pink" },
@@ -109,7 +100,7 @@ const AICEOReports = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Recent Reports */}
         <div className="col-span-2">
           <Card className="bg-card border-border backdrop-blur-xl h-full">
@@ -215,7 +206,7 @@ const AICEOReports = () => {
           </p>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 };
 

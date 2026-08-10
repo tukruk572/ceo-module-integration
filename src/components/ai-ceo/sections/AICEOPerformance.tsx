@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { PageBanner, PageShell } from "@/components/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -38,26 +39,16 @@ const correctiveActions = [
 
 const AICEOPerformance = () => {
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-emerald via-accent-emerald to-primary flex items-center justify-center shadow-xl shadow-accent-emerald/20">
-            <TrendingUp className="w-7 h-7 text-foreground" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Performance Intelligence</h1>
-            <p className="text-primary-glow/80">Role and team performance analysis</p>
-          </div>
-        </div>
-        <Badge className="bg-accent-emerald/20 text-accent-emerald border-accent-emerald/30">
-          <BarChart3 className="w-3 h-3 mr-1" />
-          Real-time Analysis
-        </Badge>
-      </div>
+    <PageShell>
+      <PageBanner
+        icon={TrendingUp}
+        title="Performance Intelligence"
+        subtitle="Ecosystem-wide performance intelligence across revenue, growth, efficiency and team output."
+        status="Live metrics"
+      />
 
       {/* Productivity Overview */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         {productivityMetrics.map((metric, i) => (
           <motion.div
             key={metric.metric}
@@ -85,7 +76,7 @@ const AICEOPerformance = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Role Performance */}
         <Card className="bg-card border-border backdrop-blur-xl">
           <CardHeader>
@@ -192,7 +183,7 @@ const AICEOPerformance = () => {
           </p>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 };
 
