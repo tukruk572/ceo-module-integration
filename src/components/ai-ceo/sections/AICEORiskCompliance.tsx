@@ -79,19 +79,19 @@ const preventiveSuggestions = [
 
 const getLevelStyle = (level: string) => {
   switch (level) {
-    case 'high': return { bg: 'bg-red-500/20', text: 'text-red-400', border: 'border-red-500/30' };
-    case 'medium': return { bg: 'bg-yellow-500/20', text: 'text-yellow-400', border: 'border-yellow-500/30' };
-    case 'critical': return { bg: 'bg-red-600/30', text: 'text-red-300', border: 'border-red-500/50' };
-    default: return { bg: 'bg-emerald-500/20', text: 'text-emerald-400', border: 'border-emerald-500/30' };
+    case 'high': return { bg: 'bg-destructive/20', text: 'text-destructive', border: 'border-destructive/30' };
+    case 'medium': return { bg: 'bg-accent-amber/20', text: 'text-accent-amber', border: 'border-accent-amber/30' };
+    case 'critical': return { bg: 'bg-destructive/30', text: 'text-destructive', border: 'border-destructive/50' };
+    default: return { bg: 'bg-accent-emerald/20', text: 'text-accent-emerald', border: 'border-accent-emerald/30' };
   }
 };
 
 const getStatusStyle = (status: string) => {
   switch (status) {
-    case 'compliant': return 'bg-emerald-500/20 text-emerald-400';
-    case 'warning': return 'bg-yellow-500/20 text-yellow-400';
-    case 'review': return 'bg-blue-500/20 text-blue-400';
-    default: return 'bg-red-500/20 text-red-400';
+    case 'compliant': return 'bg-accent-emerald/20 text-accent-emerald';
+    case 'warning': return 'bg-accent-amber/20 text-accent-amber';
+    case 'review': return 'bg-primary/20 text-primary-glow';
+    default: return 'bg-destructive/20 text-destructive';
   }
 };
 
@@ -101,15 +101,15 @@ const AICEORiskCompliance = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 flex items-center justify-center shadow-xl shadow-orange-500/20">
-            <ShieldAlert className="w-7 h-7 text-white" />
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-amber via-destructive to-accent-pink flex items-center justify-center shadow-xl shadow-accent-amber/20">
+            <ShieldAlert className="w-7 h-7 text-foreground" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">Risk & Compliance</h1>
-            <p className="text-cyan-400/80">System-wide risk monitoring and compliance tracking</p>
+            <h1 className="text-2xl font-bold text-foreground">Risk & Compliance</h1>
+            <p className="text-primary-glow/80">System-wide risk monitoring and compliance tracking</p>
           </div>
         </div>
-        <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30">
+        <Badge className="bg-accent-amber/20 text-accent-amber border-accent-amber/30">
           <AlertTriangle className="w-3 h-3 mr-1" />
           11 Active Issues
         </Badge>
@@ -126,7 +126,7 @@ const AICEORiskCompliance = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
             >
-              <Card className={`bg-slate-900/50 ${style.border} backdrop-blur-xl`}>
+              <Card className={`bg-card ${style.border} backdrop-blur-xl`}>
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-3">
                     <risk.icon className={`w-5 h-5 ${style.text}`} />
@@ -134,11 +134,11 @@ const AICEORiskCompliance = () => {
                       {risk.level}
                     </Badge>
                   </div>
-                  <p className="text-sm text-white font-medium mb-2">{risk.category}</p>
+                  <p className="text-sm text-foreground font-medium mb-2">{risk.category}</p>
                   <div className="space-y-2">
                     <Progress value={risk.score} className="h-1.5" />
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-slate-400">{risk.issues} issues</span>
+                      <span className="text-muted-foreground">{risk.issues} issues</span>
                       <span className={style.text}>{risk.score}%</span>
                     </div>
                   </div>
@@ -151,10 +151,10 @@ const AICEORiskCompliance = () => {
 
       <div className="grid grid-cols-2 gap-6">
         {/* Compliance Status */}
-        <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-xl">
+        <Card className="bg-card border-border backdrop-blur-xl">
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <CheckCircle className="w-5 h-5 text-emerald-400" />
+            <CardTitle className="text-foreground flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-accent-emerald" />
               Compliance Status
             </CardTitle>
           </CardHeader>
@@ -164,11 +164,11 @@ const AICEORiskCompliance = () => {
                 {complianceItems.map((item) => (
                   <div 
                     key={item.id} 
-                    className="flex items-center justify-between p-3 rounded-lg bg-slate-800/50 border border-slate-700/30"
+                    className="flex items-center justify-between p-3 rounded-lg bg-surface border border-border"
                   >
                     <div>
-                      <p className="text-sm font-medium text-white">{item.policy}</p>
-                      <p className="text-xs text-slate-500">Last audit: {item.lastAudit}</p>
+                      <p className="text-sm font-medium text-foreground">{item.policy}</p>
+                      <p className="text-xs text-muted-foreground">Last audit: {item.lastAudit}</p>
                     </div>
                     <Badge className={getStatusStyle(item.status)}>
                       {item.status}
@@ -181,10 +181,10 @@ const AICEORiskCompliance = () => {
         </Card>
 
         {/* Preventive Suggestions */}
-        <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-xl">
+        <Card className="bg-card border-border backdrop-blur-xl">
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <ShieldAlert className="w-5 h-5 text-orange-400" />
+            <CardTitle className="text-foreground flex items-center gap-2">
+              <ShieldAlert className="w-5 h-5 text-accent-amber" />
               AI Preventive Suggestions
             </CardTitle>
           </CardHeader>
@@ -196,11 +196,11 @@ const AICEORiskCompliance = () => {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  className="p-4 rounded-lg bg-orange-500/5 border border-orange-500/20"
+                  className="p-4 rounded-lg bg-accent-amber/5 border border-accent-amber/20"
                 >
                   <div className="flex items-start gap-3">
-                    <AlertTriangle className="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-white">{suggestion}</p>
+                    <AlertTriangle className="w-5 h-5 text-accent-amber flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-foreground">{suggestion}</p>
                   </div>
                 </motion.div>
               ))}
@@ -210,10 +210,10 @@ const AICEORiskCompliance = () => {
       </div>
 
       {/* AI Notice */}
-      <div className="p-4 rounded-lg bg-orange-500/5 border border-orange-500/20">
+      <div className="p-4 rounded-lg bg-accent-amber/5 border border-accent-amber/20">
         <div className="flex items-center gap-3">
-          <ShieldAlert className="w-5 h-5 text-orange-400" />
-          <p className="text-sm text-orange-400/80">
+          <ShieldAlert className="w-5 h-5 text-accent-amber" />
+          <p className="text-sm text-accent-amber/80">
             <strong>Risk Monitoring:</strong> AI continuously monitors all risk vectors. Critical issues are escalated to Boss immediately.
           </p>
         </div>

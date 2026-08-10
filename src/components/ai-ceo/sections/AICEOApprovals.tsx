@@ -70,18 +70,18 @@ const approvalSuggestions = [
 
 const getRecommendationStyle = (rec: string) => {
   switch (rec) {
-    case 'approve': return { bg: 'bg-emerald-500/20', text: 'text-emerald-400', icon: ThumbsUp };
-    case 'reject': return { bg: 'bg-red-500/20', text: 'text-red-400', icon: ThumbsDown };
-    case 'review': return { bg: 'bg-yellow-500/20', text: 'text-yellow-400', icon: Eye };
-    default: return { bg: 'bg-slate-500/20', text: 'text-slate-400', icon: AlertTriangle };
+    case 'approve': return { bg: 'bg-accent-emerald/20', text: 'text-accent-emerald', icon: ThumbsUp };
+    case 'reject': return { bg: 'bg-destructive/20', text: 'text-destructive', icon: ThumbsDown };
+    case 'review': return { bg: 'bg-accent-amber/20', text: 'text-accent-amber', icon: Eye };
+    default: return { bg: 'bg-muted/20', text: 'text-muted-foreground', icon: AlertTriangle };
   }
 };
 
 const getRiskStyle = (risk: string) => {
   switch (risk) {
-    case 'high': return 'bg-red-500/20 text-red-400';
-    case 'medium': return 'bg-yellow-500/20 text-yellow-400';
-    default: return 'bg-emerald-500/20 text-emerald-400';
+    case 'high': return 'bg-destructive/20 text-destructive';
+    case 'medium': return 'bg-accent-amber/20 text-accent-amber';
+    default: return 'bg-accent-emerald/20 text-accent-emerald';
   }
 };
 
@@ -91,55 +91,55 @@ const AICEOApprovals = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 via-cyan-500 to-teal-600 flex items-center justify-center shadow-xl shadow-blue-500/20">
-            <CheckSquare className="w-7 h-7 text-white" />
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-glow via-primary to-teal-600 flex items-center justify-center shadow-xl shadow-primary/20">
+            <CheckSquare className="w-7 h-7 text-foreground" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">Approval Suggestions</h1>
-            <p className="text-cyan-400/80">AI-recommended approval decisions</p>
+            <h1 className="text-2xl font-bold text-foreground">Approval Suggestions</h1>
+            <p className="text-primary-glow/80">AI-recommended approval decisions</p>
           </div>
         </div>
-        <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">
+        <Badge className="bg-primary/20 text-primary-glow border-primary/30">
           {approvalSuggestions.length} Pending
         </Badge>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <Card className="bg-emerald-500/5 border-emerald-500/20">
+        <Card className="bg-accent-emerald/5 border-accent-emerald/20">
           <CardContent className="p-4 flex items-center gap-3">
-            <ThumbsUp className="w-6 h-6 text-emerald-400" />
+            <ThumbsUp className="w-6 h-6 text-accent-emerald" />
             <div>
-              <p className="text-2xl font-bold text-emerald-400">3</p>
-              <p className="text-xs text-slate-400">Recommend Approve</p>
+              <p className="text-2xl font-bold text-accent-emerald">3</p>
+              <p className="text-xs text-muted-foreground">Recommend Approve</p>
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-yellow-500/5 border-yellow-500/20">
+        <Card className="bg-accent-amber/5 border-accent-amber/20">
           <CardContent className="p-4 flex items-center gap-3">
-            <Eye className="w-6 h-6 text-yellow-400" />
+            <Eye className="w-6 h-6 text-accent-amber" />
             <div>
-              <p className="text-2xl font-bold text-yellow-400">1</p>
-              <p className="text-xs text-slate-400">Recommend Review</p>
+              <p className="text-2xl font-bold text-accent-amber">1</p>
+              <p className="text-xs text-muted-foreground">Recommend Review</p>
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-red-500/5 border-red-500/20">
+        <Card className="bg-destructive/5 border-destructive/20">
           <CardContent className="p-4 flex items-center gap-3">
-            <ThumbsDown className="w-6 h-6 text-red-400" />
+            <ThumbsDown className="w-6 h-6 text-destructive" />
             <div>
-              <p className="text-2xl font-bold text-red-400">1</p>
-              <p className="text-xs text-slate-400">Recommend Reject</p>
+              <p className="text-2xl font-bold text-destructive">1</p>
+              <p className="text-xs text-muted-foreground">Recommend Reject</p>
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* Suggestions List */}
-      <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-xl">
+      <Card className="bg-card border-border backdrop-blur-xl">
         <CardHeader>
-          <CardTitle className="text-white flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-cyan-400" />
+          <CardTitle className="text-foreground flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-primary-glow" />
             Pending Approval Queue
           </CardTitle>
         </CardHeader>
@@ -156,14 +156,14 @@ const AICEOApprovals = () => {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="p-4 rounded-xl bg-slate-800/50 border border-slate-700/30 hover:border-cyan-500/30 transition-all"
+                    className="p-4 rounded-xl bg-surface border border-border hover:border-primary/30 transition-all"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <h3 className="font-medium text-white">{suggestion.actionName}</h3>
+                        <h3 className="font-medium text-foreground">{suggestion.actionName}</h3>
                         <div className="flex items-center gap-2 mt-1">
-                          <User className="w-3 h-3 text-slate-400" />
-                          <span className="text-sm text-slate-400">{suggestion.requestedBy}</span>
+                          <User className="w-3 h-3 text-muted-foreground" />
+                          <span className="text-sm text-muted-foreground">{suggestion.requestedBy}</span>
                           <Badge variant="outline" className="text-xs">{suggestion.role}</Badge>
                         </div>
                       </div>
@@ -180,22 +180,22 @@ const AICEOApprovals = () => {
                         </span>
                       </div>
                       <div className="flex items-center gap-2 flex-1">
-                        <span className="text-xs text-slate-400">Confidence:</span>
+                        <span className="text-xs text-muted-foreground">Confidence:</span>
                         <Progress value={suggestion.confidence} className="h-1.5 flex-1" />
-                        <span className="text-xs font-medium text-cyan-400">{suggestion.confidence}%</span>
+                        <span className="text-xs font-medium text-primary-glow">{suggestion.confidence}%</span>
                       </div>
                     </div>
 
-                    <p className="text-sm text-slate-400 italic">
+                    <p className="text-sm text-muted-foreground italic">
                       "{suggestion.reason}"
                     </p>
 
-                    <div className="mt-3 pt-3 border-t border-slate-700/30 flex items-center justify-between">
-                      <div className="flex items-center gap-1 text-xs text-slate-500">
+                    <div className="mt-3 pt-3 border-t border-border flex items-center justify-between">
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
                         <Clock className="w-3 h-3" />
                         <span>Awaiting decision</span>
                       </div>
-                      <span className="text-xs text-cyan-400/60">Boss/CEO decides final</span>
+                      <span className="text-xs text-primary-glow/60">Boss/CEO decides final</span>
                     </div>
                   </motion.div>
                 );
@@ -206,10 +206,10 @@ const AICEOApprovals = () => {
       </Card>
 
       {/* AI Notice */}
-      <div className="p-4 rounded-lg bg-blue-500/5 border border-blue-500/20">
+      <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
         <div className="flex items-center gap-3">
-          <CheckSquare className="w-5 h-5 text-blue-400" />
-          <p className="text-sm text-blue-400/80">
+          <CheckSquare className="w-5 h-5 text-primary-glow" />
+          <p className="text-sm text-primary-glow/80">
             <strong>Approval Notice:</strong> AI only suggests. Boss/CEO makes all final approval decisions.
           </p>
         </div>

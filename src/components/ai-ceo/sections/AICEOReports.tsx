@@ -62,10 +62,10 @@ const upcomingReports = [
 
 const getTypeColor = (type: string) => {
   switch (type) {
-    case 'daily': return 'bg-blue-500/20 text-blue-400';
-    case 'weekly': return 'bg-violet-500/20 text-violet-400';
-    case 'monthly': return 'bg-emerald-500/20 text-emerald-400';
-    default: return 'bg-slate-500/20 text-slate-400';
+    case 'daily': return 'bg-primary/20 text-primary-glow';
+    case 'weekly': return 'bg-accent-pink/20 text-accent-pink';
+    case 'monthly': return 'bg-accent-emerald/20 text-accent-emerald';
+    default: return 'bg-muted/20 text-muted-foreground';
   }
 };
 
@@ -75,15 +75,15 @@ const AICEOReports = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 via-indigo-500 to-violet-600 flex items-center justify-center shadow-xl shadow-blue-500/20">
-            <FileText className="w-7 h-7 text-white" />
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-glow via-primary to-accent-pink flex items-center justify-center shadow-xl shadow-primary/20">
+            <FileText className="w-7 h-7 text-foreground" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">AI Reports</h1>
-            <p className="text-cyan-400/80">Auto-generated intelligence reports</p>
+            <h1 className="text-2xl font-bold text-foreground">AI Reports</h1>
+            <p className="text-primary-glow/80">Auto-generated intelligence reports</p>
           </div>
         </div>
-        <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">
+        <Badge className="bg-primary/20 text-primary-glow border-primary/30">
           <FileText className="w-3 h-3 mr-1" />
           {reports.length} Reports Available
         </Badge>
@@ -92,17 +92,17 @@ const AICEOReports = () => {
       {/* Stats */}
       <div className="grid grid-cols-4 gap-4">
         {[
-          { label: "Daily Reports", count: 365, icon: Calendar, color: "text-blue-400" },
-          { label: "Weekly Reports", count: 52, icon: TrendingUp, color: "text-violet-400" },
-          { label: "Monthly Reports", count: 12, icon: FileText, color: "text-emerald-400" },
-          { label: "Delivered", count: "100%", icon: CheckCircle, color: "text-cyan-400" },
+          { label: "Daily Reports", count: 365, icon: Calendar, color: "text-primary-glow" },
+          { label: "Weekly Reports", count: 52, icon: TrendingUp, color: "text-accent-pink" },
+          { label: "Monthly Reports", count: 12, icon: FileText, color: "text-accent-emerald" },
+          { label: "Delivered", count: "100%", icon: CheckCircle, color: "text-primary-glow" },
         ].map((stat, i) => (
-          <Card key={stat.label} className="bg-slate-900/50 border-slate-700/50">
+          <Card key={stat.label} className="bg-card border-border">
             <CardContent className="p-4 flex items-center gap-3">
               <stat.icon className={`w-5 h-5 ${stat.color}`} />
               <div>
-                <p className="text-lg font-bold text-white">{stat.count}</p>
-                <p className="text-xs text-slate-400">{stat.label}</p>
+                <p className="text-lg font-bold text-foreground">{stat.count}</p>
+                <p className="text-xs text-muted-foreground">{stat.label}</p>
               </div>
             </CardContent>
           </Card>
@@ -112,10 +112,10 @@ const AICEOReports = () => {
       <div className="grid grid-cols-3 gap-6">
         {/* Recent Reports */}
         <div className="col-span-2">
-          <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-xl h-full">
+          <Card className="bg-card border-border backdrop-blur-xl h-full">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
-                <FileText className="w-5 h-5 text-blue-400" />
+              <CardTitle className="text-foreground flex items-center gap-2">
+                <FileText className="w-5 h-5 text-primary-glow" />
                 Recent Reports
               </CardTitle>
             </CardHeader>
@@ -128,19 +128,19 @@ const AICEOReports = () => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.1 }}
-                      className="p-4 rounded-xl bg-slate-800/50 border border-slate-700/30 hover:border-blue-500/30 transition-all"
+                      className="p-4 rounded-xl bg-surface border border-border hover:border-primary/30 transition-all"
                     >
                       <div className="flex items-start justify-between mb-3">
                         <div>
-                          <h3 className="font-medium text-white">{report.title}</h3>
+                          <h3 className="font-medium text-foreground">{report.title}</h3>
                           <div className="flex items-center gap-2 mt-1">
-                            <Clock className="w-3 h-3 text-slate-400" />
-                            <span className="text-sm text-slate-400">{report.generatedAt}</span>
+                            <Clock className="w-3 h-3 text-muted-foreground" />
+                            <span className="text-sm text-muted-foreground">{report.generatedAt}</span>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
                           <Badge className={getTypeColor(report.type)}>{report.type}</Badge>
-                          <Badge className="bg-emerald-500/20 text-emerald-400">
+                          <Badge className="bg-accent-emerald/20 text-accent-emerald">
                             <CheckCircle className="w-3 h-3 mr-1" />
                             {report.status}
                           </Badge>
@@ -148,8 +148,8 @@ const AICEOReports = () => {
                       </div>
 
                       <div className="flex items-center gap-2 mb-3">
-                        <Mail className="w-3 h-3 text-slate-400" />
-                        <span className="text-xs text-slate-400">
+                        <Mail className="w-3 h-3 text-muted-foreground" />
+                        <span className="text-xs text-muted-foreground">
                           Delivered to: {report.recipients.join(", ")}
                         </span>
                       </div>
@@ -163,7 +163,7 @@ const AICEOReports = () => {
                       </div>
 
                       <div className="flex justify-end">
-                        <Button size="sm" variant="ghost" className="text-cyan-400 hover:text-cyan-300">
+                        <Button size="sm" variant="ghost" className="text-primary-glow hover:text-primary-glow">
                           <Download className="w-4 h-4 mr-1" />
                           Download
                         </Button>
@@ -177,10 +177,10 @@ const AICEOReports = () => {
         </div>
 
         {/* Upcoming Reports */}
-        <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-xl">
+        <Card className="bg-card border-border backdrop-blur-xl">
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-violet-400" />
+            <CardTitle className="text-foreground flex items-center gap-2">
+              <Calendar className="w-5 h-5 text-accent-pink" />
               Upcoming Reports
             </CardTitle>
           </CardHeader>
@@ -192,12 +192,12 @@ const AICEOReports = () => {
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  className="p-4 rounded-lg bg-slate-800/50 border border-slate-700/30"
+                  className="p-4 rounded-lg bg-surface border border-border"
                 >
-                  <p className="text-sm font-medium text-white">{report.title}</p>
+                  <p className="text-sm font-medium text-foreground">{report.title}</p>
                   <div className="flex items-center gap-2 mt-2">
-                    <Clock className="w-3 h-3 text-slate-400" />
-                    <span className="text-xs text-slate-400">{report.scheduled}</span>
+                    <Clock className="w-3 h-3 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground">{report.scheduled}</span>
                   </div>
                 </motion.div>
               ))}
@@ -207,10 +207,10 @@ const AICEOReports = () => {
       </div>
 
       {/* AI Notice */}
-      <div className="p-4 rounded-lg bg-blue-500/5 border border-blue-500/20">
+      <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
         <div className="flex items-center gap-3">
-          <FileText className="w-5 h-5 text-blue-400" />
-          <p className="text-sm text-blue-400/80">
+          <FileText className="w-5 h-5 text-primary-glow" />
+          <p className="text-sm text-primary-glow/80">
             <strong>Report Delivery:</strong> All reports are auto-generated and delivered to Boss and CEO. No manual intervention required.
           </p>
         </div>
