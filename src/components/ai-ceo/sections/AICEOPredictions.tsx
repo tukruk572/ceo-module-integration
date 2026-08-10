@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { PageBanner, PageShell } from "@/components/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -84,35 +85,25 @@ const timelineData = {
 
 const getTypeStyle = (type: string) => {
   switch (type) {
-    case 'positive': return { bg: 'bg-emerald-500/20', text: 'text-emerald-400', border: 'border-emerald-500/30' };
-    case 'negative': return { bg: 'bg-red-500/20', text: 'text-red-400', border: 'border-red-500/30' };
-    case 'warning': return { bg: 'bg-yellow-500/20', text: 'text-yellow-400', border: 'border-yellow-500/30' };
-    default: return { bg: 'bg-cyan-500/20', text: 'text-cyan-400', border: 'border-cyan-500/30' };
+    case 'positive': return { bg: 'bg-accent-emerald/20', text: 'text-accent-emerald', border: 'border-accent-emerald/30' };
+    case 'negative': return { bg: 'bg-destructive/20', text: 'text-destructive', border: 'border-destructive/30' };
+    case 'warning': return { bg: 'bg-accent-amber/20', text: 'text-accent-amber', border: 'border-accent-amber/30' };
+    default: return { bg: 'bg-primary/20', text: 'text-primary-glow', border: 'border-primary/30' };
   }
 };
 
 const AICEOPredictions = () => {
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600 flex items-center justify-center shadow-xl shadow-yellow-500/20">
-            <Lightbulb className="w-7 h-7 text-white" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-white">Predictive Insights</h1>
-            <p className="text-cyan-400/80">AI-powered future state predictions</p>
-          </div>
-        </div>
-        <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">
-          <Lightbulb className="w-3 h-3 mr-1" />
-          ML-Powered Forecasting
-        </Badge>
-      </div>
+    <PageShell>
+      <PageBanner
+        icon={Lightbulb}
+        title="Predictive Insights"
+        subtitle="Forward-looking forecasts, opportunity detection and risk projections from the AI models."
+        status="Forecast horizon · 90 days"
+      />
 
       {/* Timeline Predictions */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         {Object.entries(timelineData).map(([key, items], i) => {
           const titles = { sevenDays: "Next 7 Days", thirtyDays: "Next 30 Days", quarter: "Next Quarter" };
           return (
@@ -122,19 +113,19 @@ const AICEOPredictions = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
             >
-              <Card className="bg-slate-900/50 border-slate-700/50">
+              <Card className="bg-card border-border">
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-white text-sm flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-cyan-400" />
+                  <CardTitle className="text-foreground text-sm flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-primary-glow" />
                     {titles[key as keyof typeof titles]}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {items.map((item, j) => (
                     <div key={j} className="flex items-center justify-between">
-                      <span className="text-xs text-slate-400">{item.label}</span>
+                      <span className="text-xs text-muted-foreground">{item.label}</span>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-white">{item.prediction}</span>
+                        <span className="text-sm font-medium text-foreground">{item.prediction}</span>
                         <Badge variant="outline" className="text-xs">{item.confidence}%</Badge>
                       </div>
                     </div>
@@ -147,10 +138,10 @@ const AICEOPredictions = () => {
       </div>
 
       {/* Main Predictions */}
-      <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-xl">
+      <Card className="bg-card border-border backdrop-blur-xl">
         <CardHeader>
-          <CardTitle className="text-white flex items-center gap-2">
-            <Lightbulb className="w-5 h-5 text-yellow-400" />
+          <CardTitle className="text-foreground flex items-center gap-2">
+            <Lightbulb className="w-5 h-5 text-accent-amber" />
             Active Predictions
           </CardTitle>
         </CardHeader>
@@ -165,7 +156,7 @@ const AICEOPredictions = () => {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className={`p-5 rounded-xl bg-slate-800/50 border ${style.border} hover:shadow-lg transition-all`}
+                    className={`p-5 rounded-xl bg-surface border ${style.border} hover:shadow-lg transition-all`}
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-start gap-4">
@@ -173,10 +164,10 @@ const AICEOPredictions = () => {
                           <prediction.icon className={`w-6 h-6 ${style.text}`} />
                         </div>
                         <div>
-                          <h3 className="font-medium text-white">{prediction.title}</h3>
+                          <h3 className="font-medium text-foreground">{prediction.title}</h3>
                           <div className="flex items-center gap-2 mt-1">
-                            <Clock className="w-3 h-3 text-slate-400" />
-                            <span className="text-sm text-slate-400">{prediction.timeline}</span>
+                            <Clock className="w-3 h-3 text-muted-foreground" />
+                            <span className="text-sm text-muted-foreground">{prediction.timeline}</span>
                           </div>
                         </div>
                       </div>
@@ -188,10 +179,10 @@ const AICEOPredictions = () => {
                       </Badge>
                     </div>
 
-                    <p className="text-sm text-slate-400 mb-3">{prediction.detail}</p>
+                    <p className="text-sm text-muted-foreground mb-3">{prediction.detail}</p>
 
                     <div className="flex items-center gap-4">
-                      <span className="text-xs text-slate-500">AI Confidence:</span>
+                      <span className="text-xs text-muted-foreground">AI Confidence:</span>
                       <Progress value={prediction.confidence} className="h-1.5 flex-1" />
                       <span className={`text-sm font-medium ${style.text}`}>{prediction.confidence}%</span>
                     </div>
@@ -204,15 +195,15 @@ const AICEOPredictions = () => {
       </Card>
 
       {/* AI Notice */}
-      <div className="p-4 rounded-lg bg-yellow-500/5 border border-yellow-500/20">
+      <div className="p-4 rounded-lg bg-accent-amber/5 border border-accent-amber/20">
         <div className="flex items-center gap-3">
-          <Lightbulb className="w-5 h-5 text-yellow-400" />
-          <p className="text-sm text-yellow-400/80">
+          <Lightbulb className="w-5 h-5 text-accent-amber" />
+          <p className="text-sm text-accent-amber/80">
             <strong>Predictive Notice:</strong> These are AI-generated forecasts based on historical patterns. Actual outcomes may vary.
           </p>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 };
 

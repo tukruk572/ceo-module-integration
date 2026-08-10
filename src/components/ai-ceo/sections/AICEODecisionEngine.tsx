@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { PageBanner, PageShell } from "@/components/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -61,11 +62,11 @@ const decisions = [
 
 const getDecisionColor = (decision: string) => {
   switch (decision) {
-    case 'approve': return { bg: 'bg-emerald-500/20', text: 'text-emerald-400', border: 'border-emerald-500/30' };
-    case 'reject': return { bg: 'bg-red-500/20', text: 'text-red-400', border: 'border-red-500/30' };
-    case 'delay': return { bg: 'bg-yellow-500/20', text: 'text-yellow-400', border: 'border-yellow-500/30' };
-    case 'escalate': return { bg: 'bg-violet-500/20', text: 'text-violet-400', border: 'border-violet-500/30' };
-    default: return { bg: 'bg-slate-500/20', text: 'text-slate-400', border: 'border-slate-500/30' };
+    case 'approve': return { bg: 'bg-accent-emerald/20', text: 'text-accent-emerald', border: 'border-accent-emerald/30' };
+    case 'reject': return { bg: 'bg-destructive/20', text: 'text-destructive', border: 'border-destructive/30' };
+    case 'delay': return { bg: 'bg-accent-amber/20', text: 'text-accent-amber', border: 'border-accent-amber/30' };
+    case 'escalate': return { bg: 'bg-accent-pink/20', text: 'text-accent-pink', border: 'border-accent-pink/30' };
+    default: return { bg: 'bg-muted/20', text: 'text-muted-foreground', border: 'border-muted/30' };
   }
 };
 
@@ -81,40 +82,28 @@ const getDecisionIcon = (decision: string) => {
 
 const AICEODecisionEngine = () => {
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-400 via-purple-500 to-indigo-600 flex items-center justify-center shadow-xl shadow-violet-500/20">
-            <Brain className="w-7 h-7 text-white" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-white">Decision Engine</h1>
-            <p className="text-cyan-400/80">AI-powered decision recommendations</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <Badge className="bg-violet-500/20 text-violet-400 border-violet-500/30">
-            <Brain className="w-3 h-3 mr-1" />
-            ML Model v3.2
-          </Badge>
-        </div>
-      </div>
+    <PageShell>
+      <PageBanner
+        icon={Brain}
+        title="Decision Engine"
+        subtitle="AI-powered decision recommendations scored by the ML model with full reasoning trails."
+        status="ML Model v3.2 · live scoring"
+      />
 
       {/* Decision Stats */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         {[
-          { label: "Approve", count: 156, icon: CheckCircle, color: "text-emerald-400" },
-          { label: "Delay", count: 23, icon: Clock, color: "text-yellow-400" },
-          { label: "Reject", count: 12, icon: XCircle, color: "text-red-400" },
-          { label: "Escalate", count: 8, icon: Send, color: "text-violet-400" },
+          { label: "Approve", count: 156, icon: CheckCircle, color: "text-accent-emerald" },
+          { label: "Delay", count: 23, icon: Clock, color: "text-accent-amber" },
+          { label: "Reject", count: 12, icon: XCircle, color: "text-destructive" },
+          { label: "Escalate", count: 8, icon: Send, color: "text-accent-pink" },
         ].map((stat, i) => (
-          <Card key={stat.label} className="bg-slate-900/50 border-slate-700/50">
+          <Card key={stat.label} className="bg-card border-border">
             <CardContent className="p-4 flex items-center gap-3">
               <stat.icon className={`w-5 h-5 ${stat.color}`} />
               <div>
-                <p className="text-lg font-bold text-white">{stat.count}</p>
-                <p className="text-xs text-slate-400">{stat.label} Today</p>
+                <p className="text-lg font-bold text-foreground">{stat.count}</p>
+                <p className="text-xs text-muted-foreground">{stat.label} Today</p>
               </div>
             </CardContent>
           </Card>
@@ -122,10 +111,10 @@ const AICEODecisionEngine = () => {
       </div>
 
       {/* Decision Queue */}
-      <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-xl">
+      <Card className="bg-card border-border backdrop-blur-xl">
         <CardHeader>
-          <CardTitle className="text-white flex items-center gap-2">
-            <Lightbulb className="w-5 h-5 text-violet-400" />
+          <CardTitle className="text-foreground flex items-center gap-2">
+            <Lightbulb className="w-5 h-5 text-accent-pink" />
             Active Decision Queue
           </CardTitle>
         </CardHeader>
@@ -142,7 +131,7 @@ const AICEODecisionEngine = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className={`p-5 rounded-xl bg-slate-800/50 border ${colors.border} hover:shadow-lg transition-all`}
+                    className={`p-5 rounded-xl bg-surface border ${colors.border} hover:shadow-lg transition-all`}
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-start gap-4">
@@ -150,8 +139,8 @@ const AICEODecisionEngine = () => {
                           <Icon className={`w-6 h-6 ${colors.text}`} />
                         </div>
                         <div>
-                          <h3 className="font-medium text-white">{decision.action}</h3>
-                          <p className="text-sm text-slate-400">Requested by: {decision.requestedBy}</p>
+                          <h3 className="font-medium text-foreground">{decision.action}</h3>
+                          <p className="text-sm text-muted-foreground">Requested by: {decision.requestedBy}</p>
                         </div>
                       </div>
                       <Badge className={`${colors.bg} ${colors.text} uppercase`}>
@@ -161,28 +150,28 @@ const AICEODecisionEngine = () => {
 
                     <div className="space-y-3">
                       <div className="flex items-center gap-4">
-                        <span className="text-sm text-slate-400">AI Confidence:</span>
+                        <span className="text-sm text-muted-foreground">AI Confidence:</span>
                         <div className="flex-1 flex items-center gap-2">
                           <Progress value={decision.confidence} className="h-2 flex-1" />
                           <span className={`text-sm font-medium ${colors.text}`}>{decision.confidence}%</span>
                         </div>
                       </div>
 
-                      <div className="p-3 rounded-lg bg-slate-900/50 border border-slate-700/30">
-                        <p className="text-sm text-slate-400">
-                          <Brain className="w-4 h-4 inline mr-2 text-violet-400" />
-                          <strong className="text-violet-400">AI Reasoning:</strong> {decision.reasoning}
+                      <div className="p-3 rounded-lg bg-card border border-border">
+                        <p className="text-sm text-muted-foreground">
+                          <Brain className="w-4 h-4 inline mr-2 text-accent-pink" />
+                          <strong className="text-accent-pink">AI Reasoning:</strong> {decision.reasoning}
                         </p>
                       </div>
 
-                      <div className="flex items-center gap-2 text-xs text-slate-500">
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <TrendingUp className="w-3 h-3" />
                         <span>Historical: {decision.historicalOutcome}</span>
                       </div>
                     </div>
 
-                    <div className="mt-4 pt-4 border-t border-slate-700/30 flex items-center justify-end gap-2">
-                      <p className="text-xs text-slate-500 flex-1">Awaiting Boss/CEO approval</p>
+                    <div className="mt-4 pt-4 border-t border-border flex items-center justify-end gap-2">
+                      <p className="text-xs text-muted-foreground flex-1">Awaiting Boss/CEO approval</p>
                     </div>
                   </motion.div>
                 );
@@ -193,15 +182,15 @@ const AICEODecisionEngine = () => {
       </Card>
 
       {/* AI Notice */}
-      <div className="p-4 rounded-lg bg-violet-500/5 border border-violet-500/20">
+      <div className="p-4 rounded-lg bg-accent-pink/5 border border-accent-pink/20">
         <div className="flex items-center gap-3">
-          <Brain className="w-5 h-5 text-violet-400" />
-          <p className="text-sm text-violet-400/80">
+          <Brain className="w-5 h-5 text-accent-pink" />
+          <p className="text-sm text-accent-pink/80">
             <strong>Decision Engine Notice:</strong> AI provides recommendations only. All decisions require explicit approval from Boss or CEO.
           </p>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 };
 
