@@ -59,7 +59,7 @@ const AICEOLiveMonitor = () => {
             <Activity className="w-3 h-3 mr-1" />
             STREAMING LIVE
           </Badge>
-          <Badge className="bg-slate-700/50 text-foreground">
+          <Badge className="bg-secondary text-foreground">
             {liveActions.length} actions/min
           </Badge>
         </div>
