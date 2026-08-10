@@ -3,11 +3,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
-import AICEOHeader from "@/components/ai-ceo/AICEOHeader";
-import AICEOSidebar from "@/components/ai-ceo/AICEOSidebar";
+import { AppSidebar, useSidebarState } from "@/components/layout/AppSidebar";
+import { TopBar } from "@/components/layout/TopBar";
 
 export const Route = createFileRoute("/ai-ceo")({
-
   head: () => ({
     meta: [
       { title: "AI CEO Command Center — Software Vala" },
@@ -28,38 +27,29 @@ export const Route = createFileRoute("/ai-ceo")({
   component: AICEODashboard,
 });
 
-
 function AICEODashboard() {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const { collapsed, toggleCollapsed, mobileOpen, setMobileOpen } = useSidebarState();
   const [streamingOn, setStreamingOn] = useState(true);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
-
-  const activeSection = (() => {
-    const path = pathname.split("/").pop() || "dashboard";
-    return path === "ai-ceo" ? "dashboard" : path;
-  })();
-
   return (
-    <TooltipProvider>
-      <div className="min-h-screen bg-gradient-to-br from-[#0a0a10] via-[#0d0d14] to-[#0a0a10] text-white flex flex-col">
-        <AICEOHeader
-          streamingOn={streamingOn}
-          onStreamingToggle={() => setStreamingOn(!streamingOn)}
+    <TooltipProvider delayDuration={120}>
+      <div className="flex min-h-screen w-full">
+        <AppSidebar
+          collapsed={collapsed}
+          onToggleCollapsed={toggleCollapsed}
+          mobileOpen={mobileOpen}
+          onCloseMobile={() => setMobileOpen(false)}
         />
 
-        <div className="flex flex-1 pt-16">
-          <AICEOSidebar
-            activeSection={activeSection}
-            collapsed={sidebarCollapsed}
-            onCollapsedChange={setSidebarCollapsed}
+        <div className="flex min-w-0 flex-1 flex-col">
+          <TopBar
+            onOpenMenu={() => setMobileOpen(true)}
+            streamingOn={streamingOn}
+            onStreamingToggle={() => setStreamingOn(!streamingOn)}
           />
 
-          <main
-            className={`flex-1 min-w-0 transition-all duration-300 ${
-              sidebarCollapsed ? "ml-20" : "ml-64"
-            } p-4 sm:p-6`}
-          >
+          <main className="min-w-0 flex-1">
             <AnimatePresence mode="wait">
               <motion.div
                 key={pathname}
@@ -69,10 +59,8 @@ function AICEODashboard() {
                 transition={{ duration: 0.2 }}
               >
                 <Outlet />
-
               </motion.div>
             </AnimatePresence>
-
           </main>
         </div>
       </div>
