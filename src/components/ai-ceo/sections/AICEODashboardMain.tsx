@@ -254,7 +254,7 @@ const AICEODashboardMain = () => {
       {/* Activity Feed with Filters */}
       <Card className="bg-card border-border backdrop-blur-xl">
         <CardHeader className="pb-3">
-          <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+          <div className="grid min-w-0 gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <CardTitle className="text-foreground flex min-w-0 items-center gap-2">
               <Activity className="w-5 h-5 shrink-0 text-accent-emerald" />
               <span className="truncate">Live Activity Feed</span>
