@@ -93,25 +93,25 @@ const AICEOLiveMonitor = () => {
                     transition={{ delay: i * 0.05 }}
                     className="p-4 rounded-lg bg-surface border border-border hover:border-primary/30 transition-all"
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
+                    <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+                      <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+                        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/10 border border-primary/30">
                           <User className="w-5 h-5 text-primary-glow" />
                         </div>
-                        <div>
-                          <div className="flex items-center gap-2">
+                        <div className="min-w-0">
+                          <div className="flex flex-wrap items-center gap-2">
                             <span className="font-medium text-foreground">{action.actor}</span>
                             <Badge variant="outline" className="text-xs">
                               {action.role.replace('_', ' ')}
                             </Badge>
                           </div>
-                          <p className="text-sm text-muted-foreground">{action.action}</p>
+                          <p className="truncate text-sm text-muted-foreground">{action.action}</p>
                         </div>
                       </div>
-                      
-                      <div className="flex items-center gap-3">
+
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-3 lg:justify-end">
                         <div className="flex items-center gap-1 text-muted-foreground">
-                          <MapPin className="w-3 h-3" />
+                          <MapPin className="w-3 h-3 shrink-0" />
                           <span className="text-xs">{action.location}</span>
                         </div>
                         <Badge className={getImpactColor(action.impact)}>
@@ -121,11 +121,12 @@ const AICEOLiveMonitor = () => {
                           Risk: {action.risk}%
                         </Badge>
                         <div className="flex items-center gap-1 text-muted-foreground">
-                          <Clock className="w-3 h-3" />
+                          <Clock className="w-3 h-3 shrink-0" />
                           <span className="text-xs">{action.time}</span>
                         </div>
                       </div>
                     </div>
+
                   </motion.div>
                 );
               })}

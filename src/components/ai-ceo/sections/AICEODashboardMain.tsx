@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { PageBanner, PageShell } from "@/components/layout/PageShell";
+import { LoadingState, PageBanner, PageShell } from "@/components/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -107,7 +107,10 @@ const AICEODashboardMain = () => {
       />
 
       {/* Ecosystem Monitor - Live Metrics */}
-      <div className="grid grid-cols-6 gap-4">
+      {isLoading && !ecosystemMetrics && <LoadingState label="Syncing ecosystem metrics…" rows={2} />}
+
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 xl:grid-cols-6">
+
         {ecosystemMetrics && [
           { label: "System Activity", value: ecosystemMetrics.systemActivityRate, unit: "/day", icon: Activity, color: "text-primary-glow", bg: "bg-primary/10" },
           { label: "Deployments", value: ecosystemMetrics.deploymentFrequency, unit: "/week", icon: Server, color: "text-accent-pink", bg: "bg-accent-pink/10" },
@@ -143,7 +146,7 @@ const AICEODashboardMain = () => {
       {/* Main Grid: Observations + Suggestions */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* AI Observation Panel */}
-        <Card className="col-span-2 bg-card border-border backdrop-blur-xl">
+        <Card className="lg:col-span-2 bg-card border-border backdrop-blur-xl">
           <CardHeader className="pb-3">
             <CardTitle className="text-foreground flex items-center gap-2">
               <Eye className="w-5 h-5 text-primary-glow" />
@@ -152,7 +155,7 @@ const AICEODashboardMain = () => {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="change" className="w-full">
-              <TabsList className="bg-surface border border-border mb-4">
+              <TabsList className="mb-4 flex w-full max-w-full justify-start overflow-x-auto bg-surface border border-border">
                 <TabsTrigger value="change" className="text-xs">What Changed Today</TabsTrigger>
                 <TabsTrigger value="attention" className="text-xs">Needs Attention</TabsTrigger>
                 <TabsTrigger value="revenue" className="text-xs">Revenue Impact</TabsTrigger>
@@ -251,12 +254,12 @@ const AICEODashboardMain = () => {
       {/* Activity Feed with Filters */}
       <Card className="bg-card border-border backdrop-blur-xl">
         <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-foreground flex items-center gap-2">
-              <Activity className="w-5 h-5 text-accent-emerald" />
-              Live Activity Feed
+          <div className="grid min-w-0 gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+            <CardTitle className="text-foreground flex min-w-0 items-center gap-2">
+              <Activity className="w-5 h-5 shrink-0 text-accent-emerald" />
+              <span className="truncate">Live Activity Feed</span>
             </CardTitle>
-            <div className="flex gap-2">
+            <div className="-mx-1 flex gap-2 overflow-x-auto px-1 lg:justify-end">
               {['all', 'risk', 'revenue', 'operations', 'security', 'compliance'].map(filter => (
                 <Button
                   key={filter}
