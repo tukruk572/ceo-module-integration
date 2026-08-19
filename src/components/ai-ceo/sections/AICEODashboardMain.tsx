@@ -146,7 +146,7 @@ const AICEODashboardMain = () => {
       {/* Main Grid: Observations + Suggestions */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* AI Observation Panel */}
-        <Card className="col-span-2 bg-card border-border backdrop-blur-xl">
+        <Card className="lg:col-span-2 bg-card border-border backdrop-blur-xl">
           <CardHeader className="pb-3">
             <CardTitle className="text-foreground flex items-center gap-2">
               <Eye className="w-5 h-5 text-primary-glow" />
