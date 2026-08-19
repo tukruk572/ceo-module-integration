@@ -155,7 +155,7 @@ const AICEODashboardMain = () => {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="change" className="w-full">
-              <TabsList className="bg-surface border border-border mb-4">
+              <TabsList className="mb-4 flex w-full max-w-full justify-start overflow-x-auto bg-surface border border-border">
                 <TabsTrigger value="change" className="text-xs">What Changed Today</TabsTrigger>
                 <TabsTrigger value="attention" className="text-xs">Needs Attention</TabsTrigger>
                 <TabsTrigger value="revenue" className="text-xs">Revenue Impact</TabsTrigger>
@@ -254,12 +254,12 @@ const AICEODashboardMain = () => {
       {/* Activity Feed with Filters */}
       <Card className="bg-card border-border backdrop-blur-xl">
         <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-foreground flex items-center gap-2">
-              <Activity className="w-5 h-5 text-accent-emerald" />
-              Live Activity Feed
+          <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+            <CardTitle className="text-foreground flex min-w-0 items-center gap-2">
+              <Activity className="w-5 h-5 shrink-0 text-accent-emerald" />
+              <span className="truncate">Live Activity Feed</span>
             </CardTitle>
-            <div className="flex gap-2">
+            <div className="-mx-1 flex gap-2 overflow-x-auto px-1 lg:justify-end">
               {['all', 'risk', 'revenue', 'operations', 'security', 'compliance'].map(filter => (
                 <Button
                   key={filter}
