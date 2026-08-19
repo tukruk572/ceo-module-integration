@@ -107,7 +107,10 @@ const AICEODashboardMain = () => {
       />
 
       {/* Ecosystem Monitor - Live Metrics */}
-      <div className="grid grid-cols-6 gap-4">
+      {isLoading && !ecosystemMetrics && <LoadingState label="Syncing ecosystem metrics…" rows={2} />}
+
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 xl:grid-cols-6">
+
         {ecosystemMetrics && [
           { label: "System Activity", value: ecosystemMetrics.systemActivityRate, unit: "/day", icon: Activity, color: "text-primary-glow", bg: "bg-primary/10" },
           { label: "Deployments", value: ecosystemMetrics.deploymentFrequency, unit: "/week", icon: Server, color: "text-accent-pink", bg: "bg-accent-pink/10" },
