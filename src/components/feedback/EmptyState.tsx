@@ -80,7 +80,7 @@ function Art({ variant }: { variant: EmptyIllustration }) {
             [98, 44],
             [116, 28],
           ].map(([x, h]) => (
-            <rect key={x} x={x} y={84 - h} width="12" height={h} rx="4" fill={`url(#${id}-a)`} />
+            <rect key={x} x={x} y={84 - (h as number)} width="12" height={h as number} rx="4" fill={`url(#${id}-a)`} />
           ))}
           <path d="M44 62 62 52 80 60 98 40 116 48" fill="none" stroke={stroke} strokeOpacity="0.65" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
         </g>

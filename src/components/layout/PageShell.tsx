@@ -3,6 +3,7 @@ import type { LucideIcon } from "lucide-react";
 import { Activity, AlertTriangle, RefreshCw } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { CardSkeleton } from "@/components/feedback/Skeletons";
 
 /**
  * Shared spacing + typography scale for every premium page.
