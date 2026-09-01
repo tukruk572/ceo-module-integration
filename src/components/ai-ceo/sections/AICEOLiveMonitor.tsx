@@ -60,7 +60,7 @@ const AICEOLiveMonitor = () => {
           { label: "High Risk", count: 8, icon: AlertTriangle },
           { label: "Completed", count: 234, icon: CheckCircle },
         ].map((stat, i) => (
-          <Card key={stat.label} className="bg-card border-border">
+          <Card key={stat.label} className="premium-halo enter-soft rounded-2xl">
             <CardContent className="p-4 flex items-center gap-3">
               <stat.icon className="w-5 h-5 text-primary-glow" />
               <div>
@@ -73,7 +73,7 @@ const AICEOLiveMonitor = () => {
       </div>
 
       {/* Live Action Stream */}
-      <Card className="bg-card border-border backdrop-blur-xl">
+      <Card className="premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
         <CardHeader>
           <CardTitle className="text-foreground flex items-center gap-2">
             <Activity className="w-5 h-5 text-primary-glow" />
