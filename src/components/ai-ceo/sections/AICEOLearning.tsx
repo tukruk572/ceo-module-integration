@@ -91,7 +91,7 @@ const AICEOLearning = () => {
 
       {/* Learning Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-        <Card className="bg-card border-border">
+        <Card className="premium-halo enter-soft rounded-2xl">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <Database className="w-5 h-5 text-primary-glow" />
@@ -102,7 +102,7 @@ const AICEOLearning = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-card border-border">
+        <Card className="premium-halo enter-soft rounded-2xl">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <TrendingUp className="w-5 h-5 text-accent-emerald" />
@@ -113,7 +113,7 @@ const AICEOLearning = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-card border-border">
+        <Card className="premium-halo enter-soft rounded-2xl">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <Zap className="w-5 h-5 text-accent-amber" />
@@ -124,7 +124,7 @@ const AICEOLearning = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-card border-border">
+        <Card className="premium-halo enter-soft rounded-2xl">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <Brain className="w-5 h-5 text-accent-pink" />
@@ -138,7 +138,7 @@ const AICEOLearning = () => {
       </div>
 
       {/* Learning History */}
-      <Card className="bg-card border-border backdrop-blur-xl">
+      <Card className="premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
         <CardHeader>
           <CardTitle className="text-foreground flex items-center gap-2">
             <Database className="w-5 h-5 text-accent-pink" />

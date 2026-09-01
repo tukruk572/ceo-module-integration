@@ -3,6 +3,7 @@ import type { LucideIcon } from "lucide-react";
 import { Activity, AlertTriangle, RefreshCw } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { CardSkeleton } from "@/components/feedback/Skeletons";
 
 /**
  * Shared spacing + typography scale for every premium page.
@@ -136,9 +137,12 @@ export function EmptyState({
   action?: ReactNode;
 }) {
   return (
-    <div className="bento-card flex flex-col items-center justify-center px-6 py-16 text-center sm:py-20">
-      <div className="mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-primary/15 text-primary">
-        <Icon className="h-6 w-6" />
+    <div className="bento-card premium-halo enter-soft flex flex-col items-center justify-center px-6 py-16 text-center sm:py-20">
+      <div className="relative mb-5">
+        <div className="absolute inset-0 -z-10 rounded-full bg-primary/15 blur-2xl" />
+        <div className="grid h-14 w-14 place-items-center rounded-2xl bg-primary/15 text-primary">
+          <Icon className="h-6 w-6" />
+        </div>
       </div>
       <h3 className="text-lg font-semibold">{title}</h3>
       <p className="mt-2 max-w-md text-sm text-muted-foreground">{description}</p>
@@ -147,20 +151,22 @@ export function EmptyState({
   );
 }
 
-export function LoadingState({ label = "Loading live data…", rows = 3 }: { label?: string; rows?: number }) {
+export function LoadingState({
+  label = "Loading live data…",
+  rows = 3,
+}: {
+  label?: string;
+  rows?: number;
+}) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" role="status" aria-busy="true">
       <p className="inline-flex items-center gap-2 text-xs text-muted-foreground">
         <RefreshCw className="h-3.5 w-3.5 animate-spin" />
         {label}
       </p>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: rows * 3 }).map((_, i) => (
-          <div key={i} className="bento-card !p-4">
-            <div className="h-3 w-24 animate-pulse rounded-full bg-muted" />
-            <div className="mt-3 h-6 w-32 animate-pulse rounded-full bg-muted/70" />
-            <div className="mt-4 h-16 animate-pulse rounded-lg bg-muted/40" />
-          </div>
+          <CardSkeleton key={i} className="!p-4" />
         ))}
       </div>
     </div>
@@ -177,7 +183,7 @@ export function ErrorState({
   onRetry?: () => void;
 }) {
   return (
-    <div className="bento-card flex flex-col items-center justify-center px-6 py-14 text-center">
+    <div className="bento-card premium-halo enter-soft flex flex-col items-center justify-center px-6 py-14 text-center">
       <div className="mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-destructive/15 text-destructive">
         <AlertTriangle className="h-6 w-6" />
       </div>
@@ -186,7 +192,7 @@ export function ErrorState({
       {onRetry && (
         <button
           onClick={onRetry}
-          className="mt-6 inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-primary/50"
+          className="btn-premium focus-glow relative mt-6 inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-primary/50"
         >
           <RefreshCw className="h-4 w-4" /> Try again
         </button>

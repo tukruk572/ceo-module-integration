@@ -125,7 +125,7 @@ const AICEODashboardMain = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
           >
-            <Card className="bg-card border-border backdrop-blur-xl">
+            <Card className="premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
               <CardContent className="p-3">
                 <div className="flex items-center gap-2 mb-2">
                   <div className={`w-8 h-8 rounded-lg ${metric.bg} flex items-center justify-center`}>
@@ -146,7 +146,7 @@ const AICEODashboardMain = () => {
       {/* Main Grid: Observations + Suggestions */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* AI Observation Panel */}
-        <Card className="lg:col-span-2 bg-card border-border backdrop-blur-xl">
+        <Card className="lg:col-span-2 premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
           <CardHeader className="pb-3">
             <CardTitle className="text-foreground flex items-center gap-2">
               <Eye className="w-5 h-5 text-primary-glow" />
@@ -199,7 +199,7 @@ const AICEODashboardMain = () => {
         </Card>
 
         {/* CEO Suggestion Engine */}
-        <Card className="bg-card border-border backdrop-blur-xl">
+        <Card className="premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
           <CardHeader className="pb-3">
             <CardTitle className="text-foreground flex items-center gap-2">
               <Lightbulb className="w-5 h-5 text-accent-amber" />
@@ -252,7 +252,7 @@ const AICEODashboardMain = () => {
       </div>
 
       {/* Activity Feed with Filters */}
-      <Card className="bg-card border-border backdrop-blur-xl">
+      <Card className="premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
         <CardHeader className="pb-3">
           <div className="grid min-w-0 gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <CardTitle className="text-foreground flex min-w-0 items-center gap-2">
