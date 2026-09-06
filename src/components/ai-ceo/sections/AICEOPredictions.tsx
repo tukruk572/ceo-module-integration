@@ -113,7 +113,7 @@ const AICEOPredictions = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
             >
-              <Card className="premium-halo enter-soft rounded-2xl">
+              <Card className="card3d premium-halo enter-soft rounded-2xl">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-foreground text-sm flex items-center gap-2">
                     <Clock className="w-4 h-4 text-primary-glow" />
@@ -138,7 +138,7 @@ const AICEOPredictions = () => {
       </div>
 
       {/* Main Predictions */}
-      <Card className="premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
+      <Card className="card3d premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
         <CardHeader>
           <CardTitle className="text-foreground flex items-center gap-2">
             <Lightbulb className="w-5 h-5 text-accent-amber" />

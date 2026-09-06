@@ -73,7 +73,7 @@ const AICEOSettings = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
           >
-            <Card className="premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
+            <Card className="card3d premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
               <CardHeader>
                 <CardTitle className="text-foreground flex items-center gap-2">
                   <category.icon className="w-5 h-5 text-primary-glow" />
@@ -106,7 +106,7 @@ const AICEOSettings = () => {
       </div>
 
       {/* System Info */}
-      <Card className="premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
+      <Card className="card3d premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
         <CardHeader>
           <CardTitle className="text-foreground flex items-center gap-2">
             <Clock className="w-5 h-5 text-primary-glow" />

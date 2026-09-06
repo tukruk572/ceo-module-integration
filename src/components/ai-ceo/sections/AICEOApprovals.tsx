@@ -128,7 +128,7 @@ const AICEOApprovals = () => {
       </div>
 
       {/* Suggestions List */}
-      <Card className="premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
+      <Card className="card3d premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
         <CardHeader>
           <CardTitle className="text-foreground flex items-center gap-2">
             <ShieldCheck className="w-5 h-5 text-primary-glow" />
