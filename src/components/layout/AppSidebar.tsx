@@ -4,7 +4,6 @@ import {
   Activity,
   Bot,
   Brain,
-  ChevronDown,
   CheckSquare,
   Database,
   FileText,
@@ -20,6 +19,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
+import softwareValaLogo from "@/assets/software-vala-logo.jpg.asset.json";
 import { cn } from "@/lib/utils";
 
 const COLLAPSE_KEY = "sv:sidebar:collapsed";
@@ -105,7 +105,6 @@ export function AppSidebar({
 }: AppSidebarProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [query, setQuery] = useState("");
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
 
   const isActive = (to: string) =>
     to === "/ai-ceo" ? pathname === "/ai-ceo" || pathname === "/ai-ceo/" : pathname.startsWith(to);
@@ -117,9 +116,6 @@ export function AppSidebar({
       .map((g) => ({ ...g, items: g.items.filter((i) => i.label.toLowerCase().includes(q)) }))
       .filter((g) => g.items.length > 0);
   }, [query]);
-
-  const groupOpen = (label: string, items: NavItem[]) =>
-    openGroups[label] ?? items.some((i) => isActive(i.to));
 
   const ItemLink = ({ item }: { item: NavItem }) => {
     const active = isActive(item.to);
@@ -156,9 +152,11 @@ export function AppSidebar({
         )}
       >
         <Link to="/ai-ceo" className="flex min-w-0 items-center gap-2" onClick={onCloseMobile}>
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-primary to-primary-glow font-bold text-primary-foreground">
-            SV
-          </span>
+          <img
+            src={softwareValaLogo.url}
+            alt="Software Vala"
+            className="h-10 w-10 shrink-0 rounded-full border border-border bg-background object-cover"
+          />
           {!collapsed && (
             <span className="truncate text-sm font-semibold tracking-tight">Software Vala</span>
           )}
@@ -220,7 +218,6 @@ export function AppSidebar({
         )}
 
         {(filtered ?? groups).map((group) => {
-          const open = filtered ? true : groupOpen(group.label, group.items);
           if (collapsed) {
             return (
               <div key={group.label} className="space-y-0.5 border-t border-border/60 pt-2">
@@ -232,22 +229,14 @@ export function AppSidebar({
           }
           return (
             <div key={group.label}>
-              <button
-                onClick={() => setOpenGroups((s) => ({ ...s, [group.label]: !open }))}
-                className="flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
-              >
+              <div className="px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                 {group.label}
-                <ChevronDown
-                  className={cn("h-3.5 w-3.5 transition-transform duration-200", open && "rotate-180")}
-                />
-              </button>
-              {open && (
-                <div className="mt-0.5 space-y-0.5">
-                  {group.items.map((item) => (
-                    <ItemLink key={item.to} item={item} />
-                  ))}
-                </div>
-              )}
+              </div>
+              <div className="mt-0.5 space-y-0.5">
+                {group.items.map((item) => (
+                  <ItemLink key={item.to} item={item} />
+                ))}
+              </div>
             </div>
           );
         })}

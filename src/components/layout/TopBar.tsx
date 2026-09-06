@@ -2,6 +2,7 @@ import { Bell, Menu, Radio, Search, Settings, Shield } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 import { cn } from "@/lib/utils";
+import softwareValaLogo from "@/assets/software-vala-logo.jpg.asset.json";
 import {
   Tooltip,
   TooltipContent,
@@ -30,9 +31,11 @@ export function TopBar({ onOpenMenu, streamingOn, onStreamingToggle }: TopBarPro
         </button>
 
         <Link to="/ai-ceo" className="mr-1 flex shrink-0 items-center gap-2 lg:hidden" aria-label="Home">
-          <span className="grid h-8 w-8 place-items-center rounded-xl bg-primary text-[11px] font-bold text-primary-foreground">
-            SV
-          </span>
+          <img
+            src={softwareValaLogo.url}
+            alt="Software Vala"
+            className="h-8 w-8 rounded-full border border-border bg-background object-cover"
+          />
         </Link>
 
         <div className="hidden min-w-0 flex-1 sm:block">
