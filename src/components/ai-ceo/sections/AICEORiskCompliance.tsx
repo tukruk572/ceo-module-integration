@@ -142,7 +142,7 @@ const AICEORiskCompliance = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Compliance Status */}
-        <Card className="premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
+        <Card className="card3d premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
           <CardHeader>
             <CardTitle className="text-foreground flex items-center gap-2">
               <CheckCircle className="w-5 h-5 text-accent-emerald" />
@@ -172,7 +172,7 @@ const AICEORiskCompliance = () => {
         </Card>
 
         {/* Preventive Suggestions */}
-        <Card className="premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
+        <Card className="card3d premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
           <CardHeader>
             <CardTitle className="text-foreground flex items-center gap-2">
               <ShieldAlert className="w-5 h-5 text-accent-amber" />

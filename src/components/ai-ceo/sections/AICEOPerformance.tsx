@@ -56,7 +56,7 @@ const AICEOPerformance = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
           >
-            <Card className="premium-halo enter-soft rounded-2xl">
+            <Card className="card3d premium-halo enter-soft rounded-2xl">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs text-muted-foreground">{metric.metric}</span>
@@ -78,7 +78,7 @@ const AICEOPerformance = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Role Performance */}
-        <Card className="premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
+        <Card className="card3d premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
           <CardHeader>
             <CardTitle className="text-foreground flex items-center gap-2">
               <Users className="w-5 h-5 text-primary-glow" />
@@ -129,7 +129,7 @@ const AICEOPerformance = () => {
         </Card>
 
         {/* Corrective Actions */}
-        <Card className="premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
+        <Card className="card3d premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
           <CardHeader>
             <CardTitle className="text-foreground flex items-center gap-2">
               <Target className="w-5 h-5 text-accent-amber" />

@@ -98,7 +98,7 @@ const AICEODecisionEngine = () => {
           { label: "Reject", count: 12, icon: XCircle, color: "text-destructive" },
           { label: "Escalate", count: 8, icon: Send, color: "text-accent-pink" },
         ].map((stat, i) => (
-          <Card key={stat.label} className="premium-halo enter-soft rounded-2xl">
+          <Card key={stat.label} className="card3d premium-halo enter-soft rounded-2xl">
             <CardContent className="p-4 flex items-center gap-3">
               <stat.icon className={`w-5 h-5 ${stat.color}`} />
               <div>
@@ -111,7 +111,7 @@ const AICEODecisionEngine = () => {
       </div>
 
       {/* Decision Queue */}
-      <Card className="premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
+      <Card className="card3d premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
         <CardHeader>
           <CardTitle className="text-foreground flex items-center gap-2">
             <Lightbulb className="w-5 h-5 text-accent-pink" />
