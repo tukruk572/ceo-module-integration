@@ -23,6 +23,7 @@ import { Route as AiCeoPredictionsRouteImport } from './routes/ai-ceo.prediction
 import { Route as AiCeoReportsRouteImport } from './routes/ai-ceo.reports'
 import { Route as AiCeoRiskRouteImport } from './routes/ai-ceo.risk'
 import { Route as AiCeoSettingsRouteImport } from './routes/ai-ceo.settings'
+import { Route as ApiCeoBriefRouteImport } from './routes/api/ceo-brief'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -94,6 +95,11 @@ const AiCeoSettingsRoute = AiCeoSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AiCeoRoute,
 } as any)
+const ApiCeoBriefRoute = ApiCeoBriefRouteImport.update({
+  id: '/api/ceo-brief',
+  path: '/api/ceo-brief',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/ai-ceo/reports': typeof AiCeoReportsRoute
   '/ai-ceo/risk': typeof AiCeoRiskRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
+  '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo/': typeof AiCeoIndexRoute
 }
 export interface FileRoutesByTo {
@@ -124,6 +131,7 @@ export interface FileRoutesByTo {
   '/ai-ceo/reports': typeof AiCeoReportsRoute
   '/ai-ceo/risk': typeof AiCeoRiskRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
+  '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo': typeof AiCeoIndexRoute
 }
 export interface FileRoutesById {
@@ -141,6 +149,7 @@ export interface FileRoutesById {
   '/ai-ceo/reports': typeof AiCeoReportsRoute
   '/ai-ceo/risk': typeof AiCeoRiskRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
+  '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo/': typeof AiCeoIndexRoute
 }
 export interface FileRouteTypes {
@@ -159,6 +168,7 @@ export interface FileRouteTypes {
     | '/ai-ceo/reports'
     | '/ai-ceo/risk'
     | '/ai-ceo/settings'
+    | '/api/ceo-brief'
     | '/ai-ceo/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/ai-ceo/reports'
     | '/ai-ceo/risk'
     | '/ai-ceo/settings'
+    | '/api/ceo-brief'
     | '/ai-ceo'
   id:
     | '__root__'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/ai-ceo/reports'
     | '/ai-ceo/risk'
     | '/ai-ceo/settings'
+    | '/api/ceo-brief'
     | '/ai-ceo/'
   fileRoutesById: FileRoutesById
 }
@@ -198,6 +210,7 @@ export interface RootRouteChildren {
   AiCeoRoute: typeof AiCeoRouteWithChildren
   OwnerRoute: typeof OwnerRoute
   SoftwarewalaRoute: typeof SoftwarewalaRoute
+  ApiCeoBriefRoute: typeof ApiCeoBriefRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -300,6 +313,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AiCeoSettingsRouteImport
       parentRoute: typeof AiCeoRoute
     }
+    '/api/ceo-brief': {
+      id: '/api/ceo-brief'
+      path: '/api/ceo-brief'
+      fullPath: '/api/ceo-brief'
+      preLoaderRoute: typeof ApiCeoBriefRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -336,6 +356,7 @@ const rootRouteChildren: RootRouteChildren = {
   AiCeoRoute: AiCeoRouteWithChildren,
   OwnerRoute: OwnerRoute,
   SoftwarewalaRoute: SoftwarewalaRoute,
+  ApiCeoBriefRoute: ApiCeoBriefRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

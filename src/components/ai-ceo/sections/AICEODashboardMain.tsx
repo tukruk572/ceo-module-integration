@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { useCEOSuggestions, type CEOSuggestion, type AIObservation, type ActivityEvent } from "@/hooks/useCEOSuggestions";
 import { toast } from "sonner";
+import { DecisionBrief } from "@/components/ai-ceo/DecisionBrief";
 
 // Helper functions for styling
 const getImpactStyle = (impact: string) => {
@@ -105,6 +106,8 @@ const AICEODashboardMain = () => {
         subtitle="Autonomous observer running continuous real-time analysis across the entire Software Vala ecosystem."
         status="Observer · real-time analysis"
       />
+
+      <DecisionBrief suggestions={suggestions} />
 
       {/* Ecosystem Monitor - Live Metrics */}
       {isLoading && !ecosystemMetrics && <LoadingState label="Syncing ecosystem metrics…" rows={2} />}
