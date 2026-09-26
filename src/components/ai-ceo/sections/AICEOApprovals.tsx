@@ -63,15 +63,15 @@ const AICEOApprovals = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         {([
-          ["approve", "Recommend Approve", ThumbsUp, "accent-emerald"],
-          ["review", "Recommend Review", Eye, "accent-amber"],
-          ["reject", "Recommend Reject", ThumbsDown, "destructive"],
-        ] as const).map(([key, label, Icon, tone]) => (
-          <Card key={key} className={`bg-${tone}/5 border-${tone}/20`}>
+          ["approve", "Recommend Approve", ThumbsUp, "bg-accent-emerald/5 border-accent-emerald/20", "text-accent-emerald"],
+          ["review", "Recommend Review", Eye, "bg-accent-amber/5 border-accent-amber/20", "text-accent-amber"],
+          ["reject", "Recommend Reject", ThumbsDown, "bg-destructive/5 border-destructive/20", "text-destructive"],
+        ] as const).map(([key, label, Icon, box, text]) => (
+          <Card key={key} className={box}>
             <CardContent className="p-4 flex items-center gap-3">
-              <Icon className={`w-6 h-6 text-${tone}`} />
+              <Icon className={`w-6 h-6 ${text}`} />
               <div>
-                <p className={`text-2xl font-bold text-${tone}`}>{isLoading ? "–" : count(key)}</p>
+                <p className={`text-2xl font-bold ${text}`}>{isLoading ? "–" : count(key)}</p>
                 <p className="text-xs text-muted-foreground">{label}</p>
               </div>
             </CardContent>
