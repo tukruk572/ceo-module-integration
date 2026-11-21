@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { toast } from 'sonner';
 
 import {
@@ -28,55 +28,84 @@ const localBossQueue = new Map<string, CEOSuggestion>();
 
 export function useCEOSuggestions() {
   const [suggestions, setSuggestions] = useState<CEOSuggestion[]>([]);
+  const [approvals, setApprovals] = useState<CEOSuggestion[]>([]);
   const [ecosystemMetrics, setEcosystemMetrics] = useState<EcosystemMetrics | null>(null);
   const [observations, setObservations] = useState<AIObservation[]>([]);
   const [activityEvents, setActivityEvents] = useState<ActivityEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [refreshError, setRefreshError] = useState<string | null>(null);
   // Null until hydrated from the database so server and client HTML match
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
   const [isPersisted, setIsPersisted] = useState(false);
+  const [queueIsPersisted, setQueueIsPersisted] = useState(false);
+  const seedSuggestions = useRef<CEOSuggestion[] | null>(null);
+  const hasLoadedLiveSuggestions = useRef(false);
+  const hasLoadedLiveQueue = useRef(false);
 
-  // Load persisted state; fall back to seed data when the API isn't connected
-  useEffect(() => {
-    let cancelled = false;
+  // Refresh live suggestions and the Boss approval queue together. Seed data is
+  // used only when the AIRA API cannot supply a persisted response.
+  const refresh = useCallback(async () => {
+    setIsRefreshing(true);
+    setRefreshError(null);
 
-    (async () => {
-      const state = await loadCeoState();
-      if (cancelled) return;
+    try {
+      const [state, queue] = await Promise.all([
+        loadCeoState().catch(() => ({ persisted: false, suggestions: [], lastRefresh: null })),
+        loadBossQueue().catch(() => ({ persisted: false, suggestions: [] })),
+      ]);
 
-      setIsPersisted(state.persisted);
-      setSuggestions(
-        state.persisted && state.suggestions.length ? state.suggestions : generateSeedSuggestions(),
-      );
-      setEcosystemMetrics(generateEcosystemMetrics());
-      setObservations(generateObservations());
-      setActivityEvents(generateActivityEvents());
-      setIsLoading(false);
+      if (state.persisted) {
+        hasLoadedLiveSuggestions.current = true;
+        setSuggestions(state.suggestions);
+      } else if (!hasLoadedLiveSuggestions.current) {
+        setSuggestions((current) => {
+          if (current.length) return current;
+          seedSuggestions.current ??= generateSeedSuggestions();
+          return seedSuggestions.current;
+        });
+      }
+      if (queue.persisted) {
+        hasLoadedLiveQueue.current = true;
+        setApprovals(queue.suggestions);
+      } else if (!hasLoadedLiveQueue.current) {
+        setApprovals(Array.from(localBossQueue.values()));
+      }
+      setIsPersisted(state.persisted || hasLoadedLiveSuggestions.current);
+      setQueueIsPersisted(queue.persisted || hasLoadedLiveQueue.current);
+      setEcosystemMetrics((current) => current ?? generateEcosystemMetrics());
+      setObservations((current) => current.length ? current : generateObservations());
+      setActivityEvents((current) => current.length ? current : generateActivityEvents());
 
-      // Persist and reuse the refresh timestamp so it survives reloads
       const now = new Date().toISOString();
-      const refreshed = await recordRefresh({ data: { at: now } });
-      if (cancelled) return;
-      setLastRefresh(new Date(refreshed.persisted ? refreshed.lastRefresh : (state.lastRefresh ?? now)));
-    })();
+      const refreshed = await recordRefresh({ data: { at: now } }).catch(() => null);
+      setLastRefresh(
+        new Date(refreshed?.persisted ? refreshed.lastRefresh : (state.lastRefresh ?? now)),
+      );
 
-    return () => {
-      cancelled = true;
-    };
+      if (!state.persisted && hasLoadedLiveSuggestions.current) {
+        setRefreshError('AIRA is unavailable; showing the last loaded live suggestions.');
+      } else if (!state.persisted) {
+        setRefreshError('AIRA live suggestions are unavailable; showing seed suggestions.');
+      } else if (!queue.persisted) {
+        setRefreshError(hasLoadedLiveQueue.current
+          ? 'AIRA approval queue is unavailable; showing the last loaded queue.'
+          : 'AIRA suggestions are live, but the approval queue could not be loaded.');
+      }
+    } catch {
+      setRefreshError('Unable to refresh AI CEO data.');
+    } finally {
+      setIsLoading(false);
+      setIsRefreshing(false);
+    }
   }, []);
 
-  // Auto-refresh ecosystem metrics every 30 seconds and persist the timestamp
+  // Initial sync, then poll the AIRA-backed state and approval queue every 30s.
   useEffect(() => {
-    const interval = setInterval(() => {
-      setEcosystemMetrics(generateEcosystemMetrics());
-      const at = new Date().toISOString();
-      void recordRefresh({ data: { at } }).then((result) => {
-        setLastRefresh(new Date(result.persisted ? result.lastRefresh : at));
-      });
-    }, 30000);
-
+    void refresh();
+    const interval = setInterval(() => void refresh(), 30000);
     return () => clearInterval(interval);
-  }, []);
+  }, [refresh]);
 
   // Send suggestion to the Boss review queue (persisted as an ai_insights row)
   const sendToBoss = useCallback(
@@ -88,6 +117,10 @@ export function useCEOSuggestions() {
       if (!result.persisted) {
         localBossQueue.set(suggestion.id, { ...suggestion, status: 'pending' });
       }
+      setApprovals((previous) => [
+        { ...suggestion, status: 'pending' },
+        ...previous.filter((item) => item.id !== suggestion.id),
+      ]);
 
       setSuggestions((prev) =>
         prev.map((s) => (s.id === suggestionId ? { ...s, status: 'reviewed' as const } : s)),
@@ -122,6 +155,9 @@ export function useCEOSuggestions() {
         const existing = localBossQueue.get(suggestionId);
         if (existing) localBossQueue.set(suggestionId, { ...existing, status: decision });
       }
+      setApprovals((previous) => previous.map((item) =>
+        item.id === suggestionId ? { ...item, status: decision } : item,
+      ));
 
       setSuggestions((prev) =>
         prev.map((s) => (s.id === suggestionId ? { ...s, status: decision } : s)),
@@ -151,12 +187,17 @@ export function useCEOSuggestions() {
 
   return {
     suggestions,
+    approvals,
     ecosystemMetrics,
     observations,
     activityEvents,
     isLoading,
+    isRefreshing,
+    refreshError,
     isPersisted,
+    queueIsPersisted,
     lastRefresh,
+    refresh,
     sendToBoss,
     getBossSuggestions,
     acknowledgeSuggestion,

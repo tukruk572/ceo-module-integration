@@ -75,7 +75,13 @@ const AICEODashboardMain = () => {
     observations,
     activityEvents,
     isLoading,
+    isRefreshing,
+    refreshError,
+    isPersisted,
+    queueIsPersisted,
     lastRefresh,
+    refresh,
+    approvals,
     sendToBoss,
     getObservationsByCategory,
     getEventsByType
@@ -107,7 +113,17 @@ const AICEODashboardMain = () => {
         status="Observer · real-time analysis"
       />
 
-      <DecisionBrief suggestions={suggestions} />
+      <DecisionBrief
+        suggestions={suggestions}
+        approvals={approvals}
+        isLoading={isLoading}
+        isRefreshing={isRefreshing}
+        isPersisted={isPersisted}
+        queueIsPersisted={queueIsPersisted}
+        lastRefresh={lastRefresh}
+        refreshError={refreshError}
+        onRefresh={() => void refresh()}
+      />
 
       {/* Ecosystem Monitor - Live Metrics */}
       {isLoading && !ecosystemMetrics && <LoadingState label="Syncing ecosystem metrics…" rows={2} />}

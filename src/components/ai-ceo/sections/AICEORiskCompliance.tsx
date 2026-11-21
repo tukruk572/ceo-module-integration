@@ -117,7 +117,7 @@ const AICEORiskCompliance = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
             >
-              <Card className={`bg-card ${style.border} backdrop-blur-xl`}>
+              <Card className={`card3d premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl ${style.border} bg-card backdrop-blur-xl`}>
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-3">
                     <risk.icon className={`w-5 h-5 ${style.text}`} />

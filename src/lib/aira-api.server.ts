@@ -21,7 +21,16 @@ export interface AiraResult<T> {
 function apiBase(): string | null {
   const raw = process.env['AIRA_API_URL'];
   if (!raw) return null;
-  return raw.replace(/\/+$/, '');
+
+  try {
+    const url = new URL(raw);
+    if (url.protocol !== 'https:' && url.protocol !== 'http:') return null;
+    // Reserved example domains are documentation placeholders, not an API.
+    if (url.hostname === 'example.com' || url.hostname.endsWith('.example.com')) return null;
+    return url.toString().replace(/\/+$/, '');
+  } catch {
+    return null;
+  }
 }
 
 export function isAiraApiConfigured(): boolean {

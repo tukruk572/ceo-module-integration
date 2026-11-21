@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Sparkles, Square, RefreshCw } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import type { CEOSuggestion } from "@/lib/ceo-types";
 
@@ -24,24 +25,59 @@ function renderLine(line: string, i: number) {
   return <p key={i} className="text-sm text-muted-foreground">{parts}</p>;
 }
 
-export function DecisionBrief({ suggestions }: { suggestions: CEOSuggestion[] }) {
+interface DecisionBriefProps {
+  suggestions: CEOSuggestion[];
+  approvals: CEOSuggestion[];
+  isLoading: boolean;
+  isRefreshing: boolean;
+  isPersisted: boolean;
+  queueIsPersisted: boolean;
+  lastRefresh: Date | null;
+  refreshError: string | null;
+  onRefresh: () => void;
+}
+
+export function DecisionBrief({
+  suggestions,
+  approvals,
+  isLoading,
+  isRefreshing,
+  isPersisted,
+  queueIsPersisted,
+  lastRefresh,
+  refreshError,
+  onRefresh,
+}: DecisionBriefProps) {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [thinking, setThinking] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const inputEdited = useRef(false);
 
-  const fillLive = () => {
-    const live = suggestions.filter((s) => s.status === "pending");
-    const queue = suggestions.filter((s) => s.status === "reviewed");
-    setInput(JSON.stringify({ suggestions: live.map(toItem), approvals: queue.map(toItem) }, null, 2));
-  };
+  const livePayload = useMemo(() => JSON.stringify({
+    suggestions: suggestions.filter((s) => s.status === "pending").map(toItem),
+    approvals: approvals.map(toItem),
+  }, null, 2), [suggestions, approvals]);
 
   useEffect(() => {
-    if (!input && suggestions.length) fillLive();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [suggestions.length]);
+    if (!inputEdited.current) setInput(livePayload);
+  }, [livePayload]);
+
+  const fillLive = () => {
+    inputEdited.current = false;
+    setInput(livePayload);
+    onRefresh();
+  };
+
+  const sourceLabel = isLoading
+    ? "Syncing AIRA"
+    : isPersisted && queueIsPersisted
+      ? "Live AIRA data"
+      : isPersisted
+        ? "Live suggestions · queue unavailable"
+        : "Seed data · AIRA unavailable";
 
   const run = async () => {
     setError(null);
@@ -104,22 +140,33 @@ export function DecisionBrief({ suggestions }: { suggestions: CEOSuggestion[] })
   };
 
   return (
-    <Card className="card3d premium-halo enter-soft rounded-2xl">
+    <Card className="card3d premium-halo enter-soft rounded-2xl" aria-label="AI Decision Brief">
       <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0">
         <CardTitle className="text-foreground flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-primary-glow" />
           AI Decision Brief
         </CardTitle>
-        <Button variant="ghost" size="sm" onClick={fillLive} disabled={loading}>
-          <RefreshCw className="w-4 h-4 mr-1" /> Use live data
-        </Button>
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" aria-live="polite">{sourceLabel}</Badge>
+          <Button variant="ghost" size="sm" onClick={fillLive} disabled={loading || isRefreshing}>
+            <RefreshCw className={`w-4 h-4 mr-1 ${isRefreshing ? "animate-spin" : ""}`} />
+            {isRefreshing ? "Refreshing" : "Use live data"}
+          </Button>
+        </div>
       </CardHeader>
+      <div className="px-6 pb-3 flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
+        <span>Auto-refreshes every 30 seconds</span>
+        {lastRefresh && <span>Last checked {lastRefresh.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>}
+      </div>
       <CardContent className="grid gap-4 lg:grid-cols-2 min-w-0">
         <div className="space-y-2 min-w-0">
           <p className="text-xs text-muted-foreground">Suggestions and approval queue (edit or paste your own)</p>
           <Textarea
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              inputEdited.current = true;
+              setInput(e.target.value);
+            }}
             className="h-64 font-mono text-xs"
             aria-label="Suggestions and approval queue data"
           />
@@ -134,7 +181,7 @@ export function DecisionBrief({ suggestions }: { suggestions: CEOSuggestion[] })
           )}
         </div>
         <div className="rounded-xl border border-border bg-surface p-4 h-[19.5rem] overflow-auto min-w-0">
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {(error || refreshError) && <p className="text-sm text-destructive">{error ?? refreshError}</p>}
           {!error && thinking && <p className="text-sm text-muted-foreground animate-pulse">Analyzing priorities…</p>}
           {!error && !thinking && !output && (
             <p className="text-sm text-muted-foreground">Your prioritized decisions with rationale will appear here.</p>

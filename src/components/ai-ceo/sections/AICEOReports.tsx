@@ -88,7 +88,7 @@ const AICEOReports = () => {
           { label: "Monthly Reports", count: 12, icon: FileText, color: "text-accent-emerald" },
           { label: "Delivered", count: "100%", icon: CheckCircle, color: "text-primary-glow" },
         ].map((stat, i) => (
-          <Card key={stat.label} className="card3d premium-halo enter-soft rounded-2xl">
+          <Card key={stat.label} className="card3d premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
             <CardContent className="p-4 flex items-center gap-3">
               <stat.icon className={`w-5 h-5 ${stat.color}`} />
               <div>
